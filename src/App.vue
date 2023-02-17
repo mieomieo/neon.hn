@@ -59,7 +59,6 @@ export default {
     ShowImage,
     ChooseText,
   },
-
   data() {
     return {
       isActiveLight: true,
