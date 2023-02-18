@@ -49,8 +49,8 @@ export default {
   padding: 0.4em;
   font-family: "Neonderthaw", cursive;
   background-color: #333;
-  /* color: v-bind(currentColorOff);
-  text-shadow: v-bind(currentTextshadowOff); */
+  color: v-bind(currentColorOff);
+  text-shadow: v-bind(currentTextshadowOff);
 }
 .light-on {
   font-family: "Neonderthaw", cursive;

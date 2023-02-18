@@ -31,7 +31,7 @@ export const colors = [
   },
   {
     label: "Golden Yellow",
-    ColorOff: {
+    colorOff: {
       color: "rgb(255, 214, 46)",
       textShadow:
         "rgb(223 185 31) 0px 1px 0px, rgb(205 169 22) 0px 2px 0px, rgb(186 153 18) 0px 3px 0px, rgb(164 132 1) 0px 4px 0px, rgb(0 0 0 / 23%) 0px 0px 5px, rgb(0 0 0 / 43%) 0px 1px 3px, rgb(0 0 0 / 40%) 1px 4px 6px, rgb(0 0 0 / 38%) 0px 5px 10px, rgb(0 0 0 / 25%) 3px 7px 12px",
@@ -41,7 +41,7 @@ export const colors = [
   },
   {
     label: "Red",
-    ColorOff: {
+    colorOff: {
       color: "rgb(255, 42, 77)",
       textShadow:
         "rgb(219 20 56) 0px 1px 0px, rgb(188 8 40) 0px 2px 0px, rgb(160 0 29) 0px 3px 0px, rgb(121 0 22) 0px 4px 0px, rgb(0 0 0 / 23%) 0px 0px 5px, rgb(0 0 0 / 43%) 0px 1px 3px, rgb(0 0 0 / 40%) 1px 4px 6px, rgb(0 0 0 / 38%) 0px 5px 10px, rgb(0 0 0 / 25%) 3px 7px 12px",
@@ -51,7 +51,7 @@ export const colors = [
   },
   {
     label: "Pink",
-    ColorOff: {
+    colorOff: {
       color: "rgb(234, 164, 255",
       textShadow:
         "rgb(244 138 219) 0px 1px 0px, rgb(226 113 199) 0px 2px 0px, rgb(212 93 184) 0px 3px 0px, rgb(191 90 167) 0px 4px 0px, rgb(0 0 0 / 23%) 0px 0px 5px, rgb(0 0 0 / 43%) 0px 1px 3px, rgb(0 0 0 / 40%) 1px 4px 6px, rgb(0 0 0 / 38%) 0px 5px 10px, rgb(0 0 0 / 25%) 3px 7px 12px",
@@ -61,7 +61,7 @@ export const colors = [
   },
   {
     label: "Green",
-    ColorOff: {
+    colorOff: {
       color: "rgb(11, 215, 72",
       textShadow:
         "rgb(0 184 55) 0px 1px 0px, rgb(0 155 47) 0px 2px 0px, rgb(0 134 40) 0px 3px 0px, rgb(0 114 34) 0px 4px 0px, rgb(0 0 0 / 23%) 0px 0px 5px, rgb(0 0 0 / 43%) 0px 1px 3px, rgb(0 0 0 / 40%) 1px 4px 6px, rgb(0 0 0 / 38%) 0px 5px 10px, rgb(0 0 0 / 25%) 3px 7px 12px",
@@ -71,7 +71,7 @@ export const colors = [
   },
   {
     label: "Orange",
-    ColorOff: {
+    colorOff: {
       color: "rgb(255 143 4)",
       textShadow:
         "rgb(217 123 0) 0px 1px 0px, rgb(231 127 0) 0px 2px 0px, rgb(191 108 1) 0px 3px 0px, rgb(168 95 0) 0px 4px 0px, rgb(0 0 0 / 23%) 0px 0px 5px, rgb(0 0 0 / 43%) 0px 1px 3px, rgb(0 0 0 / 40%) 1px 4px 6px, rgb(0 0 0 / 38%) 0px 5px 10px, rgb(0 0 0 / 25%) 3px 7px 12px",
@@ -81,7 +81,7 @@ export const colors = [
   },
   {
     label: "Deep Blue",
-    ColorOff: {
+    colorOff: {
       color: "rgb(2, 116, 252)",
       textShadow:
         "rgb(0 95 208) 0px 1px 0px, rgb(0 98 214) 0px 2px 0px, rgb(0 72 158) 0px 3px 0px, rgb(0 61 133) 0px 4px 0px, rgb(0 0 0 / 23%) 0px 0px 5px, rgb(0 0 0 / 43%) 0px 1px 3px, rgb(0 0 0 / 40%) 1px 4px 6px, rgb(0 0 0 / 38%) 0px 5px 10px, rgb(0 0 0 / 25%) 3px 7px 12px",
@@ -91,7 +91,7 @@ export const colors = [
   },
   {
     label: "Purple",
-    ColorOff: {
+    colorOff: {
       color: "rgb(244, 244, 244)",
       textShadow:
         "rgb(181 181 181) 0px 1px 0px, rgb(169 169 169) 0px 2px 0px, rgb(148 148 148) 0px 3px 0px, rgb(125 125 125) 0px 4px 0px, rgb(0 0 0 / 23%) 0px 0px 5px, rgb(0 0 0 / 43%) 0px 1px 3px, rgb(0 0 0 / 40%) 1px 4px 6px, rgb(0 0 0 / 38%) 0px 5px 10px, rgb(0 0 0 / 25%) 3px 7px 12px",

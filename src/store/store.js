@@ -16,11 +16,12 @@ export const store = createStore({
   actions: {},
   mutations: {
     setColor(state, item) {
-      item = JSON.parse(JSON.stringify(item));
-      // state.currentColorOff.color = item.colorOff.color;
-      // state.currentColorOn = item.colorOn;
-      // state.currentColorOff.textShadow = item.colorOff.textShadow;
-      console.log(item);
+      console.log(typeof item);
+      // item = JSON.parse(JSON.stringify(item));
+      state.currentColorOff.color = item.colorOff.color;
+      state.currentColorOn = item.colorOn;
+      state.currentColorOff.textShadow = item.colorOff.textShadow;
+      // console.log(item);
       // console.log(item);
     },
   },
