@@ -20,11 +20,11 @@
           @click="handleLightToggle"
         />
         <div
-          class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"
+          class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#0891b2]"
         ></div>
       </label>
     </div>
-    <div class="relative p-10 bg-stone-800 flex justify-center">
+    <div class="relative p-10 rounded-b-lg bg-stone-800 flex justify-center">
       <div class="file-input absolute bottom-2">
         <input
           ref="fileInput"
@@ -60,19 +60,17 @@
       class="absolute bottom-[210px]"
     />
   </div>
-  <!-- <upload-image /> -->
 </template>
 <script>
 import CarouselCoverflow from "./CarouselCoverflow.vue";
+// import { store } from "../../store/store.js";
 
 export default {
   components: {
     CarouselCoverflow,
-    // UploadImage,
   },
   data() {
     return {
-      lightActive: true,
       previewImage: null,
       currentBackground:
         "url('./src/assets/images/background/background1.jpg') no-repeat center center",
@@ -80,9 +78,9 @@ export default {
   },
   methods: {
     handleLightToggle() {
-      this.lightActive = !this.lightActive;
-      // console.log(this.lightActive);
-      this.$emit("toggleSwitch", this.lightActive);
+      this.$store.state.lightOn = !this.$store.state.lightOn;
+      // this.$emit("toggleSwitch", this.lightActive);
+      console.log(this.$store.state.lightOn);
     },
 
     pickFile() {

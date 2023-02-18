@@ -1,6 +1,6 @@
 <template>
   <div class="w-3/4 mx-auto text-center flex justify-between">
-    <ul
+    <!-- <ul
       class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4"
       id="tabs-tab"
       role="tablist"
@@ -44,9 +44,11 @@
           >COLOR</a
         >
       </li>
-    </ul>
-
-    <ChooseText :lightOn="isActiveLight" />
+    </ul> -->
+    <div class="choose-">
+      <ChooseText />
+      <ChooseColor />
+    </div>
     <ShowImage @toggleSwitch="handleSwitch" />
   </div>
 </template>
@@ -54,10 +56,12 @@
 // import HeaderApp from "./components/HeaderApp.vue";
 import ShowImage from "./components/show-nav/ShowImage.vue";
 import ChooseText from "./components/chosse-nav/ChooseText.vue";
+import ChooseColor from "./components/chosse-nav/ChooseColor.vue";
 export default {
   components: {
     ShowImage,
     ChooseText,
+    ChooseColor,
   },
   data() {
     return {

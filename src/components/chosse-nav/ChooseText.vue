@@ -3,7 +3,12 @@
     <label for=""> Type Here </label>
     <input class="bg-slate-200" type="text" v-model="input.text" />
     <div class="generate-text">
-      <div class="neon-text" :class="{ 'light-on': lightOn }">
+      <div
+        class="neon-text"
+        :class="{
+          'light-on': lightOn,
+        }"
+      >
         {{ input.text }}
       </div>
     </div>
@@ -12,40 +17,45 @@
 <script>
 export default {
   components: {},
-  props: {
-    lightOn: {
-      type: Boolean,
-      required: true,
-    },
-  },
   data() {
     return {
       input: {
         text: "Your Text",
       },
-      isActive: true,
     };
+  },
+
+  computed: {
+    lightOn() {
+      return this.$store.state.lightOn;
+    },
+    currentColorOn() {
+      return this.$store.state.currentColorOn;
+    },
+    currentColorOff() {
+      return this.$store.state.currentColorOff.color;
+    },
+    currentTextshadowOff() {
+      return this.$store.state.currentColorOff.textShadow;
+    },
   },
 };
 </script>
 <style scoped>
 .neon-text {
-  font-size: 2rem;
+  font-size: 40px;
   animation: pulsate 1.5s infinite alternate;
-  /* border: 0.2rem solid #fff; */
   border-radius: 2rem;
   padding: 0.4em;
-  /* box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #bc13fe,
-    0 0 0.8rem #bc13fe, 0 0 2.8rem #bc13fe, inset 0 0 1.3rem #bc13fe; */
+  font-family: "Neonderthaw", cursive;
+  background-color: #333;
+  /* color: v-bind(currentColorOff);
+  text-shadow: v-bind(currentTextshadowOff); */
 }
 .light-on {
-  /* color: #ffffff;
-  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #bc13fe,
-    0 0 82px #bc13fe, 0 0 92px #bc13fe, 0 0 102px #bc13fe, 0 0 151px #bc13fe; */
   font-family: "Neonderthaw", cursive;
-  font-size: 15dfgpx;
-  color: #ffffff;
-  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff3131,
-    0 0 30px #ff3131, 0 0 40px #ff3131, 0 0 55px #ff3131, 0 0 75px #ff3131;
+  font-size: 40px;
+  color: #fff;
+  text-shadow: v-bind(currentColorOn);
 }
 </style>
