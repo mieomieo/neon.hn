@@ -3,6 +3,7 @@
     <div
       class="relative demo-text h-full w-full border-x-8 border-stone-800"
       :style="{
+        transition: 'background-image 0.5s ease-in-out',
         background: previewImage
           ? `url(${previewImage})  no-repeat center center`
           : currentBackground,

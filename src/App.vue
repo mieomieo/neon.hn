@@ -45,9 +45,12 @@
         >
       </li>
     </ul> -->
-    <div class="choose-">
+    <div class="choose-nav">
       <ChooseText />
-      <ChooseColor />
+      <div class="choose__nav--select flex">
+        <ChooseColor />
+        <ChooseFont />
+      </div>
     </div>
     <ShowImage @toggleSwitch="handleSwitch" />
   </div>
@@ -57,11 +60,14 @@
 import ShowImage from "./components/show-nav/ShowImage.vue";
 import ChooseText from "./components/chosse-nav/ChooseText.vue";
 import ChooseColor from "./components/chosse-nav/ChooseColor.vue";
+import ChooseFont from "./components/chosse-nav/ChooseFont.vue";
+
 export default {
   components: {
     ShowImage,
     ChooseText,
     ChooseColor,
+    ChooseFont,
   },
   data() {
     return {
@@ -71,9 +77,7 @@ export default {
   methods: {
     handleSwitch(e) {
       this.isActiveLight = e;
-
       console.log(typeof this.isActiveLight);
-
       console.log(e);
       console.log("this.isActiveLight = ", this.isActiveLight);
     },

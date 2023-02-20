@@ -4,6 +4,8 @@ export const store = createStore({
   state() {
     return {
       lightOn: true,
+      currentDemoFont: "Alexa",
+      // currentSrcFont: "/src/assets/fonts/fonts/Alexa.ttf",
       currentColorOff: {
         color: "rgb(244, 244, 244)",
         textShadow:
@@ -15,14 +17,17 @@ export const store = createStore({
   },
   actions: {},
   mutations: {
-    setColor(state, item) {
-      console.log(typeof item);
-      // item = JSON.parse(JSON.stringify(item));
+    SetColor(state, item) {
       state.currentColorOff.color = item.colorOff.color;
+      console.log(state.currentColorOff.color);
       state.currentColorOn = item.colorOn;
       state.currentColorOff.textShadow = item.colorOff.textShadow;
-      // console.log(item);
-      // console.log(item);
+    },
+    SetFont(state, item) {
+      // state.currentSrcFont = item.src;
+      state.currentDemoFont = item;
+      // console.log(state.currentDemoFont);
+      console.log(state.currentDemoFont);
     },
   },
 });
