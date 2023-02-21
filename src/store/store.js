@@ -5,7 +5,6 @@ export const store = createStore({
     return {
       lightOn: true,
       currentDemoFont: "Alexa",
-      // currentSrcFont: "/src/assets/fonts/fonts/Alexa.ttf",
       currentColorOff: {
         color: "rgb(244, 244, 244)",
         textShadow:
@@ -13,6 +12,13 @@ export const store = createStore({
       },
       currentColorOn:
         "rgb(255 255 255) 0px 0px 5px, rgb(255 255 255) 0px 0px 10px, rgb(9, 201, 237) 0px 0px 20px, rgb(9, 201, 237) 0px 0px 30px, rgb(9, 201, 237) 0px 0px 40px, rgb(9, 201, 237) 0px 0px 55px, rgb(9, 201, 237) 0px 0px 75px",
+      background: {
+        x: 0,
+        y: 0,
+        width: 100,
+        height: 100,
+      },
+      textInput: "Your Text",
     };
   },
   actions: {},
@@ -28,6 +34,16 @@ export const store = createStore({
       state.currentDemoFont = item;
       // console.log(state.currentDemoFont);
       console.log(state.currentDemoFont);
+    },
+    setBackgroundInfo(state, payload) {
+      state.background.x = payload.x;
+      state.background.y = payload.x;
+      state.background.width = payload.width;
+      state.background.height = payload.height;
+    },
+    setTextInput(state, payload) {
+      state.textInput = payload;
+      // console.log(state.textInput);
     },
   },
 });

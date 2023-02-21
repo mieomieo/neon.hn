@@ -1,7 +1,8 @@
 <template>
-  <div class="bg-stone-800 w-[780px] h-[780px] text-center relative">
+  <div class="bg-stone-800 w-[780px] h-[780px] text-center">
     <div
-      class="relative demo-text h-full w-full border-x-8 border-stone-800"
+      ref="container"
+      class="relative h-full w-full border-x-8 border-stone-800 flex justify-center items-center"
       :style="{
         transition: 'background-image 0.5s ease-in-out',
         background: previewImage
@@ -10,6 +11,16 @@
         'background-size': 'contain',
       }"
     >
+      <div
+        ref="draggable"
+        class="neon-text dragText top-[30%] absolute"
+        :class="{
+          'light-on': lightOn,
+        }"
+        @mousedown="startDrag"
+      >
+        {{ demoText }}
+      </div>
       <label
         class="absolute right-2 top-5 inline-flex items-center cursor-pointer"
       >
@@ -55,7 +66,6 @@
         </label>
       </div>
     </div>
-
     <CarouselCoverflow
       @chooseBackground="handleChooseBackground"
       class="absolute bottom-[210px]"
@@ -63,6 +73,7 @@
   </div>
 </template>
 <script>
+import { parseStringStyle } from "@vue/shared";
 import CarouselCoverflow from "./CarouselCoverflow.vue";
 // import { store } from "../../store/store.js";
 
@@ -72,10 +83,50 @@ export default {
   },
   data() {
     return {
-      previewImage: null,
       currentBackground:
         "url('./src/assets/images/background/background1.jpg') no-repeat center center",
+      dragging: false,
+      initialX: 0,
+      initialY: 0,
+      currentX: 300,
+      currentY: 300,
+      previewImage: null,
     };
+  },
+  computed: {
+    demoText() {
+      return this.$store.state.textInput;
+    },
+    lightOn() {
+      return this.$store.state.lightOn;
+    },
+    currentDemoFont() {
+      return this.$store.state.currentDemoFont;
+    },
+    currentColorOn() {
+      return this.$store.state.currentColorOn;
+    },
+    currentColorOff() {
+      return this.$store.state.currentColorOff.color;
+    },
+    currentTextshadowOff() {
+      return this.$store.state.currentColorOff.textShadow;
+    },
+    currentDemoFont() {
+      return this.$store.state.currentDemoFont;
+    },
+    // bgWidth() {
+    //   return this.$store.state.background.width;
+    // },
+    // bgHeight() {
+    //   return this.$store.state.background.height;
+    // },
+    // bgX() {
+    //   return this.$store.state.background.x;
+    // },
+    // bgY() {
+    //   return this.$store.state.background.y;
+    // },
   },
   methods: {
     handleLightToggle() {
@@ -83,7 +134,6 @@ export default {
       // this.$emit("toggleSwitch", this.lightActive);
       console.log(this.$store.state.lightOn);
     },
-
     pickFile() {
       this.$refs.fileInput.click();
       this.currentBackground = null;
@@ -103,10 +153,86 @@ export default {
       this.currentBackground = `url('./src/assets/images/background/${e}') no-repeat center center`;
       console.log(e);
     },
+    HandleInput(payload) {
+      this.$store.commit("setTextInput", payload);
+    },
+    startDrag(event) {
+      this.dragging = true;
+      // Calculate the initial position of the draggable element
+      this.initialX = event.clientX - this.currentX;
+      this.initialY = event.clientY - this.currentY;
+      // Add event listeners to track the mouse movements
+      document.addEventListener("mousemove", this.onDrag);
+      document.addEventListener("mouseup", this.stopDrag);
+    },
+    onDrag(event) {
+      if (this.dragging) {
+        // Calculate the current position of the draggable element
+        this.currentX = event.clientX - this.initialX;
+        this.currentY = event.clientY - this.initialY;
+
+        // Check if the draggable element is within the boundaries of the container
+        if (this.currentX < this.containerRect.left) {
+          this.currentX = this.containerRect.left;
+          console.log(this.containerRect.left);
+        }
+        if (
+          this.currentX >
+          this.containerRect.right - this.$refs.draggable.offsetWidth
+        ) {
+          this.currentX =
+            this.containerRect.right - this.$refs.draggable.offsetWidth;
+        }
+        if (this.currentY < this.containerRect.top) {
+          this.currentY = this.containerRect.top;
+        }
+        if (
+          this.currentY >
+          this.containerRect.bottom - this.$refs.draggable.offsetHeight
+        ) {
+          this.currentY =
+            this.containerRect.bottom - this.$refs.draggable.offsetHeight;
+        }
+
+        // Update the position of the draggable element
+        this.$refs.draggable.style.left = `${this.currentX}px`;
+        this.$refs.draggable.style.top = `${this.currentY}px`;
+      }
+    },
+    stopDrag(event) {
+      // Stop tracking mouse movements
+      this.dragging = false;
+      document.removeEventListener("mousemove", this.onDrag);
+      document.removeEventListener("mouseup", this.stopDrag);
+    },
+  },
+  mounted() {
+    // Get the boundaries of the container element
+    this.containerRect = this.$refs.container.getBoundingClientRect();
   },
 };
 </script>
 <style scoped>
+@import "../../assets/fonts/font-face.css";
+.dragText {
+  cursor: move;
+  position: absolute;
+  user-select: none;
+}
+.neon-text {
+  width: max-content;
+  font-family: v-bind(currentDemoFont), sans-serif;
+  font-size: 60px;
+  animation: pulsate 1.5s infinite alternate;
+  border-radius: 2rem;
+  color: v-bind(currentColorOff);
+  text-shadow: v-bind(currentTextshadowOff);
+  transition: text-shadow 0.6s ease;
+}
+.light-on {
+  color: #fff;
+  text-shadow: v-bind(currentColorOn);
+}
 .file-input__input {
   width: 0.1px;
   height: 0.1px;

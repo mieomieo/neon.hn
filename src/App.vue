@@ -45,6 +45,9 @@
         >
       </li>
     </ul> -->
+    <div>
+      <ShowImage />
+    </div>
     <div class="choose-nav">
       <ChooseText />
       <div class="choose__nav--select flex">
@@ -52,7 +55,6 @@
         <ChooseFont />
       </div>
     </div>
-    <ShowImage @toggleSwitch="handleSwitch" />
   </div>
 </template>
 <script>
@@ -74,20 +76,22 @@ export default {
       isActiveLight: true,
     };
   },
-  methods: {
-    handleSwitch(e) {
-      this.isActiveLight = e;
-      console.log(typeof this.isActiveLight);
-      console.log(e);
-      console.log("this.isActiveLight = ", this.isActiveLight);
-    },
-  },
+
+  methods: {},
 };
 </script>
 <style scoped>
-:root {
-  --dark: #212121;
-  --light: #f3f3f3;
-  --font: "Odibee Sans", cursive;
+.container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  border: 1px solid black;
+}
+
+.draggable {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: red;
 }
 </style>
