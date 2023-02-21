@@ -45,9 +45,9 @@
         >
       </li>
     </ul> -->
-    <div>
-      <ShowImage />
-    </div>
+    <!-- <header-app /> -->
+    <!-- <header-app /> -->
+    <ShowImage />
     <div class="choose-nav">
       <ChooseText />
       <div class="choose__nav--select flex">
@@ -58,7 +58,7 @@
   </div>
 </template>
 <script>
-// import HeaderApp from "./components/HeaderApp.vue";
+import HeaderApp from "./components/HeaderApp.vue";
 import ShowImage from "./components/show-nav/ShowImage.vue";
 import ChooseText from "./components/chosse-nav/ChooseText.vue";
 import ChooseColor from "./components/chosse-nav/ChooseColor.vue";
@@ -70,6 +70,7 @@ export default {
     ChooseText,
     ChooseColor,
     ChooseFont,
+    HeaderApp,
   },
   data() {
     return {

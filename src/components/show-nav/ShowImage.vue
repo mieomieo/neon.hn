@@ -1,8 +1,9 @@
 <template>
   <div class="bg-stone-800 w-[780px] h-[780px] text-center">
     <div
+      @touchmove.prevent
       ref="container"
-      class="relative h-full w-full border-x-8 border-stone-800 flex justify-center items-center"
+      class="box-border relative h-full w-full border-x-8 border-stone-800 flex justify-center"
       :style="{
         transition: 'background-image 0.5s ease-in-out',
         background: previewImage
@@ -13,11 +14,12 @@
     >
       <div
         ref="draggable"
-        class="neon-text dragText top-[30%] absolute"
+        class="neon-text dragText absolute top-[30%]"
         :class="{
           'light-on': lightOn,
         }"
         @mousedown="startDrag"
+        @touchstart.prevent="startDrag"
       >
         {{ demoText }}
       </div>
@@ -73,7 +75,7 @@
   </div>
 </template>
 <script>
-import { parseStringStyle } from "@vue/shared";
+// import { parseStringStyle } from "@vue/shared";
 import CarouselCoverflow from "./CarouselCoverflow.vue";
 // import { store } from "../../store/store.js";
 
@@ -88,12 +90,15 @@ export default {
       dragging: false,
       initialX: 0,
       initialY: 0,
-      currentX: 300,
-      currentY: 300,
+      currentX: 0,
+      currentY: 0,
       previewImage: null,
     };
   },
   computed: {
+    // setCurrentXY(){
+    //   return this.currentX =
+    // },
     demoText() {
       return this.$store.state.textInput;
     },
@@ -115,18 +120,6 @@ export default {
     currentDemoFont() {
       return this.$store.state.currentDemoFont;
     },
-    // bgWidth() {
-    //   return this.$store.state.background.width;
-    // },
-    // bgHeight() {
-    //   return this.$store.state.background.height;
-    // },
-    // bgX() {
-    //   return this.$store.state.background.x;
-    // },
-    // bgY() {
-    //   return this.$store.state.background.y;
-    // },
   },
   methods: {
     handleLightToggle() {
@@ -157,32 +150,54 @@ export default {
       this.$store.commit("setTextInput", payload);
     },
     startDrag(event) {
+      if (event.type === "touchstart") {
+        event.preventDefault();
+        event = event.touches[0];
+        console.log("touch:");
+      }
+      if (!this.dragging) {
+        this.currentX = event.clientX - event.clientX / 2;
+        this.currentY = event.clientY - this.$refs.draggable.offsetHeight / 2;
+        // console.log(this.currentY);
+        // console.log(this.currentX);
+      }
+
       this.dragging = true;
       // Calculate the initial position of the draggable element
       this.initialX = event.clientX - this.currentX;
       this.initialY = event.clientY - this.currentY;
       // Add event listeners to track the mouse movements
       document.addEventListener("mousemove", this.onDrag);
+      document.addEventListener("touchmove", this.onDrag, { passive: false });
       document.addEventListener("mouseup", this.stopDrag);
+      document.addEventListener("touchend", this.stopDrag);
     },
     onDrag(event) {
       if (this.dragging) {
+        if (event.type === "touchmove") {
+          event.preventDefault();
+          event = event.touches[0];
+        }
+        console.log("ondrag");
         // Calculate the current position of the draggable element
         this.currentX = event.clientX - this.initialX;
         this.currentY = event.clientY - this.initialY;
 
         // Check if the draggable element is within the boundaries of the container
-        if (this.currentX < this.containerRect.left) {
-          this.currentX = this.containerRect.left;
-          console.log(this.containerRect.left);
+        if (this.currentX < 0) {
+          // this.currentX = this.containerRect.left;
+          this.currentX = 0;
+          console.log(this.currentX);
         }
         if (
-          this.currentX >
-          this.containerRect.right - this.$refs.draggable.offsetWidth
+          this.currentX + this.$refs.draggable.offsetWidth >
+          this.containerRect.width
         ) {
           this.currentX =
-            this.containerRect.right - this.$refs.draggable.offsetWidth;
+            this.containerRect.width - this.$refs.draggable.offsetWidth;
+          console.log(this.currentX + this.$refs.draggable.offsetWidth);
         }
+
         if (this.currentY < this.containerRect.top) {
           this.currentY = this.containerRect.top;
         }
@@ -202,12 +217,19 @@ export default {
     stopDrag(event) {
       // Stop tracking mouse movements
       this.dragging = false;
+      document.removeEventListener("touchend", this.stopDrag);
+      document.removeEventListener("touchend", this.stopDrag);
+      document.removeEventListener("touchmove ", this.onDrag, {
+        passive: false,
+      });
+      console.log("stopDrag");
       document.removeEventListener("mousemove", this.onDrag);
       document.removeEventListener("mouseup", this.stopDrag);
     },
   },
   mounted() {
     // Get the boundaries of the container element
+    this.draggable = this.$refs.draggable.getBoundingClientRect();
     this.containerRect = this.$refs.container.getBoundingClientRect();
   },
 };
@@ -220,6 +242,7 @@ export default {
   user-select: none;
 }
 .neon-text {
+  z-index: 100;
   width: max-content;
   font-family: v-bind(currentDemoFont), sans-serif;
   font-size: 60px;
