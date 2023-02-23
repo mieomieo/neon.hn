@@ -83,7 +83,7 @@ export default {
   data() {
     return {
       currentBackground:
-        "url('./src/assets/images/background/background1.jpg') no-repeat center center",
+        "url('./assets/images/background/background1.jpg') no-repeat center center",
       dragging: false,
       initialX: 0,
       initialY: 0,
@@ -94,12 +94,6 @@ export default {
     };
   },
   computed: {
-    // currentX() {
-    //   return this.$refs.draggable.clientX;
-    // },
-    // currentY() {
-    //   return this.$refs.draggable.clientY;
-    // },
     demoText() {
       return this.$store.state.textInput;
     },
@@ -144,7 +138,7 @@ export default {
     },
     handleChooseBackground(e) {
       this.previewImage = null;
-      this.currentBackground = `url('./src/assets/images/background/${e}') no-repeat center center`;
+      this.currentBackground = `url('./assets/images/background/${e}') no-repeat center center`;
       console.log(e);
     },
     HandleInput(payload) {
