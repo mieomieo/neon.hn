@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "netlify": "^13.1.2",
     "swiper": "^9.0.5",
     "vue": "^3.2.45",
     "vuex": "^4.1.0"
