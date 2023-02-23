@@ -13,15 +13,14 @@
     >
       <div
         ref="draggable"
-        class="neon-text dragText top-[30%]"
+        class="neon-text dragText top-[30%] whitespace-pre-wrap"
         :class="{
           'light-on': lightOn,
         }"
         @mousedown="startDrag"
         @touchstart.prevent="startDrag"
-      >
-        {{ demoText }}
-      </div>
+        v-html="demoText"
+      ></div>
       <label
         class="absolute right-2 top-5 inline-flex items-center cursor-pointer"
       >
@@ -75,6 +74,7 @@
 </template>
 <script>
 import CarouselCoverflow from "./CarouselCoverflow.vue";
+import { colors as defaultColors } from "../../constants";
 
 export default {
   components: {
@@ -91,6 +91,8 @@ export default {
       currentY: 0,
       previewImage: null,
       flag: false, // For testing set data one time only
+      containerRect: null,
+      draggable: null,
     };
   },
   computed: {
@@ -104,13 +106,19 @@ export default {
       return this.$store.state.currentDemoFont;
     },
     currentColorOn() {
-      return this.$store.state.currentColorOn;
+      const colorId = this.$store.state.currentColorId;
+      return defaultColors.find((x) => x.id === colorId).colorOn;
+      // return this.$store.state.currentColorOn;
     },
     currentColorOff() {
-      return this.$store.state.currentColorOff.color;
+      const colorId = this.$store.state.currentColorId;
+      return defaultColors.find((x) => x.id === colorId).colorOff.color;
+      // return this.$store.state.currentColorOff.color;
     },
     currentTextshadowOff() {
-      return this.$store.state.currentColorOff.textShadow;
+      const colorId = this.$store.state.currentColorId;
+      return defaultColors.find((x) => x.id === colorId).colorOff.textShadow;
+      // return this.$store.state.currentColorOff.textShadow;
     },
     currentDemoFont() {
       return this.$store.state.currentDemoFont;
@@ -231,8 +239,12 @@ export default {
   },
   mounted() {
     // Get the boundaries of the container element
-    this.draggable = this.$refs.draggable.getBoundingClientRect();
-    this.containerRect = this.$refs.container.getBoundingClientRect();
+    this.draggable = JSON.parse(
+      JSON.stringify(this.$refs.draggable.getBoundingClientRect())
+    );
+    this.containerRect = JSON.parse(
+      JSON.stringify(this.$refs.container.getBoundingClientRect())
+    );
     // this.currentX = draggable.left;
     // this.currentY = draggable.y;
   },

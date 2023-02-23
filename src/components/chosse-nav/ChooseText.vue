@@ -1,28 +1,20 @@
 <template>
   <div class="">
     <label for=""> Type Here </label>
-    <input
+    <p
+      contenteditable="true"
       class="bg-slate-200"
       type="text"
-      v-model="input.text"
-      @input="HandleInput(input.text)"
+      @input="HandleInput"
       placeholder="Your Text"
-    />
+    ></p>
   </div>
 </template>
-<script global>
+<script>
 export default {
-  components: {},
-  data() {
-    return {
-      input: {
-        text: "",
-      },
-    };
-  },
   methods: {
-    HandleInput(payload) {
-      this.$store.commit("setTextInput", payload);
+    HandleInput(event) {
+      this.$store.commit("setTextInput", event.target.innerText);
     },
   },
 };

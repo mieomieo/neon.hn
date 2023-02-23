@@ -1,5 +1,5 @@
 <template>
-  <div class="w-3/4 mx-auto text-center flex justify-between">
+  <div ref="abc" class="w-3/4 mx-auto text-center flex justify-between">
     <!-- <ul
       class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4"
       id="tabs-tab"
@@ -77,8 +77,23 @@ export default {
       isActiveLight: true,
     };
   },
-
-  methods: {},
+  beforeCreate() {
+    console.log("before Create");
+    console.log("isActiveLight", this.isActiveLight);
+  },
+  created() {
+    console.log("Created");
+    console.log("isActiveLight", this.isActiveLight);
+    console.log("ref", this.$refs.abc);
+  },
+  beforeMount() {
+    console.log("before Mount");
+    console.log("ref", this.$refs.abc);
+  },
+  mounted() {
+    console.log("mounted");
+    console.log("ref", this.$refs.abc);
+  },
 };
 </script>
 <style scoped>

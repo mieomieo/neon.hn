@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     selectColor(item) {
-      this.$store.commit("SetColor", item);
+      this.$store.commit("SetColor", item.id);
       //   console.log(colorOff);
     },
   },
