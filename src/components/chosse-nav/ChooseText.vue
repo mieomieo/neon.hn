@@ -6,6 +6,7 @@
       type="text"
       v-model="input.text"
       @input="HandleInput(input.text)"
+      placeholder="Your Text"
     />
   </div>
 </template>
@@ -15,7 +16,7 @@ export default {
   data() {
     return {
       input: {
-        text: "Your Text",
+        text: "",
       },
     };
   },
