@@ -3,7 +3,7 @@
     <label for=""> Type Here </label>
     <p
       contenteditable="true"
-      class="bg-slate-200"
+      class="bg-slate-200 h-[100px]"
       type="text"
       @input="HandleInput"
       placeholder="Your Text"

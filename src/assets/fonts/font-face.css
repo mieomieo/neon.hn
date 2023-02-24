@@ -3,6 +3,10 @@
   src: url(/src/assets/fonts/fonts/Alexa.ttf) format("truetype");
 }
 @font-face {
+  font-family: "Breathing";
+  src: url(/src/assets/fonts/fonts/Breathing.ttf) format("truetype");
+}
+@font-face {
   font-family: "Amanda";
   src: url(/src/assets/fonts/fonts/Amanda.ttf) format("truetype");
 }

@@ -117,6 +117,11 @@ export const fonts = [
     src: "./assets/fonts/fonts/Alexa.ttf",
   },
   {
+    label: "Breathing",
+    preview: "./assets/fonts/preview/breathing.png",
+    src: "./assets/fonts/fonts/Breathing.ttf",
+  },
+  {
     label: "Amanda",
     preview: "./assets/fonts/preview/amanda.svg",
     src: "./assets/fonts/fonts/Amanda.ttf",

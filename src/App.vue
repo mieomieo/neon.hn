@@ -1,56 +1,13 @@
 <template>
+  <header-app />
   <div ref="abc" class="w-3/4 mx-auto text-center flex justify-between">
-    <!-- <ul
-      class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4"
-      id="tabs-tab"
-      role="tablist"
-    >
-      <li class="nav-item" role="presentation">
-        <a
-          href="#tabs-home"
-          class="nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent active"
-          id="tabs-home-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#tabs-home"
-          role="tab"
-          aria-controls="tabs-home"
-          aria-selected="true"
-          >Text</a
-        >
-      </li>
-      <li class="nav-item" role="presentation">
-        <a
-          href="#tabs-profile"
-          class="nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent"
-          id="tabs-profile-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#tabs-profile"
-          role="tab"
-          aria-controls="tabs-profile"
-          aria-selected="false"
-          >Font</a
-        >
-      </li>
-      <li class="nav-item" role="presentation">
-        <a
-          href="#tabs-messages"
-          class="nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent"
-          id="tabs-messages-tab"
-          data-bs-toggle="pill"
-          data-bs-target="#tabs-messages"
-          role="tab"
-          aria-controls="tabs-messages"
-          aria-selected="false"
-          >COLOR</a
-        >
-      </li>
-    </ul> -->
-    <!-- <header-app /> -->
-    <!-- <header-app /> -->
-    <ShowImage />
-    <div class="choose-nav">
+    <div class="flex flex-col">
+      <ChooseSize class="mb-5" />
+      <ShowImage />
+    </div>
+    <div class="choose-nav ml-5">
       <ChooseText />
-      <div class="choose__nav--select flex">
+      <div class="choose__nav--select mt-5 flex flex-col gap-5">
         <ChooseColor />
         <ChooseFont />
       </div>
@@ -63,6 +20,7 @@ import ShowImage from "./components/show-nav/ShowImage.vue";
 import ChooseText from "./components/chosse-nav/ChooseText.vue";
 import ChooseColor from "./components/chosse-nav/ChooseColor.vue";
 import ChooseFont from "./components/chosse-nav/ChooseFont.vue";
+import ChooseSize from "./components/chosse-nav/ChooseSize.vue";
 
 export default {
   components: {
@@ -70,6 +28,7 @@ export default {
     ChooseText,
     ChooseColor,
     ChooseFont,
+    ChooseSize,
     HeaderApp,
   },
   data() {
@@ -77,23 +36,23 @@ export default {
       isActiveLight: true,
     };
   },
-  beforeCreate() {
-    console.log("before Create");
-    console.log("isActiveLight", this.isActiveLight);
-  },
-  created() {
-    console.log("Created");
-    console.log("isActiveLight", this.isActiveLight);
-    console.log("ref", this.$refs.abc);
-  },
-  beforeMount() {
-    console.log("before Mount");
-    console.log("ref", this.$refs.abc);
-  },
-  mounted() {
-    console.log("mounted");
-    console.log("ref", this.$refs.abc);
-  },
+  // beforeCreate() {
+  //   console.log("before Create");
+  //   console.log("isActiveLight", this.isActiveLight);
+  // },
+  // created() {
+  //   console.log("Created");
+  //   console.log("isActiveLight", this.isActiveLight);
+  //   console.log("ref", this.$refs.abc);
+  // },
+  // beforeMount() {
+  //   console.log("before Mount");
+  //   console.log("ref", this.$refs.abc);
+  // },
+  // mounted() {
+  //   console.log("mounted");
+  //   console.log("ref", this.$refs.abc);
+  // },
 };
 </script>
 <style scoped>

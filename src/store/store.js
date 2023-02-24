@@ -14,6 +14,7 @@ export const store = createStore({
       //   "rgb(255 255 255) 0px 0px 5px, rgb(255 255 255) 0px 0px 10px, rgb(9, 201, 237) 0px 0px 20px, rgb(9, 201, 237) 0px 0px 30px, rgb(9, 201, 237) 0px 0px 40px, rgb(9, 201, 237) 0px 0px 55px, rgb(9, 201, 237) 0px 0px 75px",
       textInput: "Your Text",
       currentColorId: 1,
+      demoTextFontSize: 50,
     };
   },
   actions: {},
@@ -34,6 +35,9 @@ export const store = createStore({
     setTextInput(state, payload) {
       state.textInput = payload;
       // console.log(state.textInput);
+    },
+    setDemoTextFontSize(state, payload) {
+      state.demoTextFontSize = payload;
     },
   },
 });
