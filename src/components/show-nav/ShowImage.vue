@@ -1,5 +1,6 @@
 <template>
   <div class="bg-stone-800 w-[780px] h-[780px] text-center">
+    <!-- Background Image -->
     <div
       ref="container"
       class="box-border relative h-full w-full border-x-8 border-stone-800 flex justify-center"
@@ -11,6 +12,8 @@
         'background-size': 'contain',
       }"
     >
+      <!-- Draggable // DemoText -->
+
       <div
         ref="draggable"
         class="neon-text dragText top-[30%] whitespace-pre-wrap"
@@ -21,6 +24,34 @@
         @touchstart.prevent="startDrag"
         v-html="demoText"
       ></div>
+      <!-- Ruler to illustrate for DemoText -->
+      <div
+        ref="rulerOfDemoText"
+        class="mt-[300px]"
+        :style="{ width: calcSizeOfTextImage.width + 'px' }"
+      >
+        <p class="text-center text-white">20 cm</p>
+        <div class="line-distance flex justify-center items-center relative">
+          <div class="line-1 absolute left-0 h-[10px] w-[1px] bg-white"></div>
+          <div class="line-2 absolute right-0 h-[10px] w-[1px] bg-white"></div>
+          <div class="distance absolute w-full h-[1px] bg-white"></div>
+        </div>
+      </div>
+
+      <!-- Rular for illustration of BackgoundImage -->
+      <div
+        class="mt-10 absolute"
+        :style="{ width: sizeOfBackgroundImage + 'px' }"
+      >
+        <p class="text-center text-white">
+          {{ this.$store.state.realDimensionInput }}cm
+        </p>
+        <div class="line-distance flex justify-center items-center relative">
+          <div class="line-1 absolute left-0 h-[10px] w-[1px] bg-white"></div>
+          <div class="line-2 absolute right-0 h-[10px] w-[1px] bg-white"></div>
+          <div class="distance absolute w-full h-[1px] bg-white"></div>
+        </div>
+      </div>
       <!-- Button Light -->
       <ButtonLight
         class="absolute right-2 top-5 inline-flex items-center cursor-pointer"
@@ -28,6 +59,7 @@
         ><div class="div"></div
       ></ButtonLight>
     </div>
+    <!-- Import image file -->
     <div class="relative p-10 rounded-b-lg bg-stone-800 flex justify-center">
       <div class="file-input absolute bottom-2">
         <input
@@ -87,10 +119,16 @@ export default {
       flag: false, // For testing set data one time only
       containerRect: null,
       draggable: null,
+      sizeOfTextImage: {
+        width: 0,
+        height: 0,
+      },
+      sizeOfBackgroundImage: 0,
     };
   },
   computed: {
     demoText() {
+      this.calcSizeOfTextImage;
       return this.$store.state.textInput;
     },
     lightOn() {
@@ -117,8 +155,20 @@ export default {
     currentDemoFont() {
       return this.$store.state.currentDemoFont;
     },
-    demoTextFontSize() {
-      return this.$store.state.demoTextFontSize;
+    currentDemoTextFontSize() {
+      this.calcSizeOfTextImage;
+      return this.$store.state.currentDemoTextFontSize;
+    },
+    calcSizeOfBackgroundImage() {
+      return this.sizeOfBackgroundImage;
+    },
+    calcSizeOfTextImage() {
+      // this.sizeOfTextImage.height = this.$refs.draggable.offsetHeight;
+      // this.sizeOfTextImage.width = this.$refs.draggable.offsetWidth;
+      return {
+        width: this.sizeOfTextImage.width,
+        height: this.sizeOfTextImage.height,
+      };
     },
   },
   methods: {
@@ -246,8 +296,11 @@ export default {
     this.containerRect = JSON.parse(
       JSON.stringify(this.$refs.container.getBoundingClientRect())
     );
-    // this.currentX = draggable.left;
-    // this.currentY = draggable.y;
+    this.sizeOfBackgroundImage = this.$refs.container.offsetWidth;
+    // console.log("Size of Bg Image:", this.sizeOfBackgroundImage);
+    this.sizeOfTextImage.height = this.$refs.draggable.offsetHeight;
+    this.sizeOfTextImage.width = this.$refs.draggable.offsetWidth;
+    console.log("sizeOfTextImage.width", this.sizeOfTextImage.width);
   },
 };
 </script>
@@ -261,7 +314,7 @@ export default {
 .neon-text {
   z-index: 100;
   width: 357;
-  font-size: v-bind(demoTextFontSize + "px"); /*42px;*/
+  font-size: v-bind(currentDemoTextFontSize + "px"); /*42px;*/
   max-width: 100%;
   max-height: 100%;
   font-family: v-bind(currentDemoFont), sans-serif;

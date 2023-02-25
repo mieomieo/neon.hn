@@ -1,9 +1,11 @@
 <template>
   <div class="flex">
     <div>
+      <label for="">Real Distance(cm/inch):</label>
       <input
         type="number"
         @blur="handleInputDistance"
+        @keyup.enter="handleInputDistance"
         class="bg-slate-200 w-[200px]"
       />
     </div>
@@ -16,19 +18,20 @@ export default {
   data() {
     return {
       distance: 0,
-      neonTextSize: 0,
+      // neonTextSize: 0,
     };
   },
   methods: {
     handleInputDistance(e) {
       const distanceValue = e.target.value; // cm
+      console.log("Real Distance:", distanceValue);
       const defaultDemoTextSize = 110; // cm
       const defaultBgWidth = 780; // px
       const demoTextWidth =
         (defaultBgWidth * defaultDemoTextSize) / distanceValue; // p
       const fontSize = this.getFontSizeByWidth(demoTextWidth, "Breathing"); // p)
-
       this.$store.commit("setDemoTextFontSize", fontSize);
+      this.$store.commit("setRealDimension", distanceValue);
     },
     getFontSizeByWidth(maxWidth, font) {
       const text = this.$store.state.textInput;
@@ -45,7 +48,7 @@ export default {
         // console.log(maxfontSize);
 
         if (width <= maxWidth) {
-          //   console.log(maxfontSize);
+          console.log("max-font-zize:", maxfontSize);
           return (font = maxfontSize);
         }
         maxfontSize -= increment;

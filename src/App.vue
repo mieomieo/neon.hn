@@ -1,5 +1,4 @@
 <template>
-  <header-app />
   <div ref="abc" class="w-3/4 mx-auto text-center flex justify-between">
     <div class="flex flex-col">
       <ChooseSize class="mb-5" />
@@ -13,6 +12,7 @@
       </div>
     </div>
   </div>
+  <!-- <header-app /> -->
 </template>
 <script>
 import HeaderApp from "./components/HeaderApp.vue";

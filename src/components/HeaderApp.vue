@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="text-box">
     <div class="myText" ref="myText" :style="{ fontSize: fontSize + 'px' }">
       {{ text }}
@@ -67,5 +67,66 @@ export default {
   font-family: v-bind(font);
   white-space: nowrap;
   font-size: v-bind(fontSize);
+}
+</style> -->
+<template>
+  <div ref="containera" class="container relative">
+    <div class="z-50 text-center">{{ divWidth }}cm</div>
+    <div class="line-distance flex justify-center items-center relative">
+      <div class="line-1 absolute"></div>
+      <div class="line-2 absolute"></div>
+      <div class="distance absolute"></div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "MyComponent",
+  data() {
+    return {
+      divWidth: 0,
+    };
+  },
+  mounted() {
+    // lấy chiều rộng của thẻ div
+    this.divWidth = this.$refs.containera.offsetWidth;
+    // console.log("divWidth=" + this.divWidth);
+  },
+  computed: {
+    CalcWidth() {
+      const divWidth = this.divWidth;
+      // console.log("123", divWidth);
+      return divWidth;
+    },
+  },
+};
+</script>
+
+<style scoped>
+.container {
+  background-color: #000;
+  color: #fff;
+  width: 300px; /* ví dụ chiều rộng của thẻ div là 300px */
+}
+.line-1 {
+  left: 0;
+  height: 10px;
+  width: 2px;
+  background: #fff;
+}
+.line-2 {
+  right: 0;
+  height: 10px;
+  width: 2px;
+  background: #fff;
+}
+.distance {
+  /* box-sizing: border-box; */
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  height: 2px;
+  /* sử dụng thuộc tính computed để đặt chiều rộng của hr bằng với chiều rộng của div */
+  max-width: v-bind(CalcWidth + "px");
 }
 </style>
