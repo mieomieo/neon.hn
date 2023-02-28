@@ -4,10 +4,11 @@ export const store = createStore({
   state() {
     return {
       lightOn: true,
-      currentDemoFont: "Alexa",
+      currentDemoFont: "Amanda",
       textInput: "Your Text",
       currentColorId: 1,
-      currentDemoTextFontSize: 50,
+      currentDemoTextFontSize: 70,
+      currentWidthDemoText: 300,
       realDimensionInput: 0, // cm or inch
     };
   },
@@ -35,6 +36,10 @@ export const store = createStore({
     },
     setRealDimension(state, dimension) {
       state.realDimensionInput = dimension;
+    },
+    setWidthDemoText(state, width) {
+      state.currentWidthDemoText = width;
+      console.log(state.currentDemoTextWidth);
     },
   },
 });

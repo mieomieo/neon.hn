@@ -13,10 +13,10 @@
       }"
     >
       <!-- Draggable // DemoText -->
-
+      <!-- <div class="demo-text-container"> -->
       <div
         ref="draggable"
-        class="neon-text dragText top-[30%] whitespace-pre-wrap"
+        class="neon-text dragText top-[30%] whitespace-pre-wrap bg-red"
         :class="{
           'light-on': lightOn,
         }"
@@ -24,32 +24,50 @@
         @touchstart.prevent="startDrag"
         v-html="demoText"
       ></div>
+
       <!-- Ruler to illustrate for DemoText -->
       <div
-        ref="rulerOfDemoText"
-        class="mt-[300px]"
+        ref="widthRulerOfDemoText"
+        class="dimension absolute -translate-y-[10px]"
         :style="{ width: calcSizeOfTextImage.width + 'px' }"
       >
-        <p class="text-center text-white">20 cm</p>
-        <div class="line-distance flex justify-center items-center relative">
-          <div class="line-1 absolute left-0 h-[10px] w-[1px] bg-white"></div>
-          <div class="line-2 absolute right-0 h-[10px] w-[1px] bg-white"></div>
+        <p class="text-center text-white"></p>
+        <div class="flex items-center relative">
+          <div class="line-1 absolute left-0 h-[5px] w-[1px] bg-white"></div>
+          <div class="line-2 absolute right-0 h-[5px] w-[1px] bg-white"></div>
           <div class="distance absolute w-full h-[1px] bg-white"></div>
         </div>
       </div>
 
-      <!-- Rular for illustration of BackgoundImage -->
       <div
-        class="mt-10 absolute"
+        ref="heightRulerOfDemoText"
+        class="dimension top-[400px] absolute rotate-90 origin-top-left -translate-x-[10px]"
+        :style="{ width: calcSizeOfTextImage.height + 'px' }"
+      >
+        <p class="text-center text-white"></p>
+        <div class="flex justify-center items-center relative">
+          <div class="line-1 absolute left-0 h-[5px] w-[1px] bg-white"></div>
+          <div class="line-2 absolute right-0 h-[5px] w-[1px] bg-white"></div>
+          <div class="distance absolute w-full h-[1px] bg-white"></div>
+        </div>
+      </div>
+
+      <!-- Ruler for illustration of Background Image -->
+      <div
+        class="mt-10 absolute dimension"
         :style="{ width: sizeOfBackgroundImage + 'px' }"
       >
         <p class="text-center text-white">
           {{ this.$store.state.realDimensionInput }}cm
         </p>
         <div class="line-distance flex justify-center items-center relative">
-          <div class="line-1 absolute left-0 h-[10px] w-[1px] bg-white"></div>
-          <div class="line-2 absolute right-0 h-[10px] w-[1px] bg-white"></div>
-          <div class="distance absolute w-full h-[1px] bg-white"></div>
+          <div
+            class="line-1 absolute left-[8px] h-[5px] w-[1px] bg-white"
+          ></div>
+          <div
+            class="line-2 absolute right-[8px] h-[5px] w-[1px] bg-white"
+          ></div>
+          <div class="distance absolute w-[764px] h-[1px] bg-white"></div>
         </div>
       </div>
       <!-- Button Light -->
@@ -124,19 +142,20 @@ export default {
         height: 0,
       },
       sizeOfBackgroundImage: 0,
+      rulerHorizontal: 0,
+      rulerVertical: 0,
     };
   },
   computed: {
     demoText() {
-      this.calcSizeOfTextImage;
       return this.$store.state.textInput;
     },
     lightOn() {
       return this.$store.state.lightOn;
     },
-    currentDemoFont() {
-      return this.$store.state.currentDemoFont;
-    },
+    // currentDemoFont() {
+    //   return this.$store.state.currentDemoFont;
+    // },
     currentColorOn() {
       const colorId = this.$store.state.currentColorId;
       return defaultColors.find((x) => x.id === colorId).colorOn;
@@ -156,19 +175,32 @@ export default {
       return this.$store.state.currentDemoFont;
     },
     currentDemoTextFontSize() {
-      this.calcSizeOfTextImage;
       return this.$store.state.currentDemoTextFontSize;
+    },
+    currentWidthDemoText() {
+      return this.$store.state.currentWidthDemoText;
     },
     calcSizeOfBackgroundImage() {
       return this.sizeOfBackgroundImage;
     },
     calcSizeOfTextImage() {
-      // this.sizeOfTextImage.height = this.$refs.draggable.offsetHeight;
-      // this.sizeOfTextImage.width = this.$refs.draggable.offsetWidth;
+      // console.log("calcHeight", this.sizeOfTextImage.height);
+      const canvas = document.createElement("canvas");
+      // console.log("this.$refs.draggable", this.$refs.draggable.innerText);
+      // const demoTextContainer = this.$refs.draggable;
+      // canvas.append(this.$refs.draggable.innerText);
+      const context = canvas.getContext("2d");
+      context.font = `${this.currentDemoTextFontSize}px ${this.currentDemoFont}`;
+      const metric = context.measureText(this.demoText);
+      console.log("metric: ", metric);
+
       return {
-        width: this.sizeOfTextImage.width,
-        height: this.sizeOfTextImage.height,
+        width: metric.actualBoundingBoxRight - metric.actualBoundingBoxLeft,
+        height:
+          metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent,
       };
+      // return metric.actualBoundingBoxRight - metric.actualBoundingBoxLeft;
+      // return metric.width;
     },
   },
   methods: {
@@ -201,6 +233,7 @@ export default {
     },
     startDrag(event) {
       const draggable = this.$refs.draggable.getBoundingClientRect();
+      // const test = this.$refs.widthRulerOfDemoText.getBoundingClientRect();
       // this.draggable = this.$refs.draggable.getBoundingClientRect();
 
       if (event.type === "touchstart") {
@@ -239,10 +272,7 @@ export default {
           this.currentX = this.containerRect.width * 0.01;
           console.log(this.currentX);
         }
-        // if (this.currentX < this.containerRect.width ) {
-        //   this.currentX = this.containerRect.width;
-        //   console.log(this.currentX);
-        // }
+
         if (
           this.currentX + this.$refs.draggable.offsetWidth >
           this.containerRect.width - this.containerRect.width * 0.05
@@ -273,6 +303,10 @@ export default {
         // Update the position of the draggable element
         this.$refs.draggable.style.left = `${this.currentX}px`;
         this.$refs.draggable.style.top = `${this.currentY}px`;
+        this.$refs.widthRulerOfDemoText.style.left = `${this.currentX}px`;
+        this.$refs.widthRulerOfDemoText.style.top = `${this.currentY}px`;
+        this.$refs.heightRulerOfDemoText.style.left = `${this.currentX}px`;
+        this.$refs.heightRulerOfDemoText.style.top = `${this.currentY}px`;
       }
     },
     stopDrag(event) {
@@ -287,6 +321,28 @@ export default {
       document.removeEventListener("mousemove", this.onDrag);
       document.removeEventListener("mouseup", this.stopDrag);
     },
+    getFontSizeByWidth(text, maxWidth, font) {
+      console.log(font);
+      var maxfontSize = 50;
+      var increment = 1;
+      var canvas = document.createElement("canvas");
+      var context = canvas.getContext("2d");
+      context.font = `${maxfontSize}px ${font}`;
+      while (maxfontSize > 0) {
+        context.font = `${maxfontSize}px ${font}`;
+        // console.log(context.font);
+        var width = context.measureText(text).width;
+        // console.log(width);
+        console.log(maxfontSize);
+
+        if (width <= maxWidth) {
+          console.log("max-font-zize:", maxfontSize);
+          return maxfontSize;
+        }
+        maxfontSize -= increment;
+      }
+      return maxfontSize;
+    },
   },
   mounted() {
     // Get the boundaries of the container element
@@ -296,16 +352,38 @@ export default {
     this.containerRect = JSON.parse(
       JSON.stringify(this.$refs.container.getBoundingClientRect())
     );
+    // this.widthRulerOfDemoText = JSON.parse(
+    //   JSON.stringify(this.$refs.widthRulerOfDemoText.getBoundingClientRect())
+    // );
     this.sizeOfBackgroundImage = this.$refs.container.offsetWidth;
-    // console.log("Size of Bg Image:", this.sizeOfBackgroundImage);
     this.sizeOfTextImage.height = this.$refs.draggable.offsetHeight;
     this.sizeOfTextImage.width = this.$refs.draggable.offsetWidth;
     console.log("sizeOfTextImage.width", this.sizeOfTextImage.width);
+    console.log("sizeOfTextImage.height", this.sizeOfTextImage.height);
+    let font = new FontFace(
+      this.$store.state.currentDemoFont,
+      `url(../assets/fonts/fonts/${this.$store.state.currentDemoFont}.ttf)`
+    );
+    font.load().then(() => {
+      document.fonts.add(font);
+      // console.log(font);
+      // this.fontLoaded = true;
+      const demoTextFontsize = this.getFontSizeByWidth(
+        this.demoText,
+        this.sizeOfTextImage.width,
+        this.currentDemoFont
+      );
+      console.log("demoTextFontsize", demoTextFontsize);
+    });
   },
 };
 </script>
 <style scoped>
 @import "../../assets/fonts/font-face.css";
+.dimension {
+  opacity: 0.6;
+}
+
 .dragText {
   cursor: move;
   position: absolute;
@@ -313,10 +391,9 @@ export default {
 }
 .neon-text {
   z-index: 100;
-  width: 357;
+  /* width: v-bind(currentWidthDemoText + "px"); */
+  /* width: 357px; */
   font-size: v-bind(currentDemoTextFontSize + "px"); /*42px;*/
-  max-width: 100%;
-  max-height: 100%;
   font-family: v-bind(currentDemoFont), sans-serif;
   box-sizing: border-box;
   animation: pulsate 1.5s infinite alternate;

@@ -1,4 +1,5 @@
 <template>
+  <header-app />
   <div ref="abc" class="w-3/4 mx-auto text-center flex justify-between">
     <div class="flex flex-col">
       <ChooseSize class="mb-5" />
@@ -12,7 +13,7 @@
       </div>
     </div>
   </div>
-  <!-- <header-app /> -->
+  <Test class="mt-[300px] m-auto p-10" />
 </template>
 <script>
 import HeaderApp from "./components/HeaderApp.vue";
@@ -21,7 +22,7 @@ import ChooseText from "./components/chosse-nav/ChooseText.vue";
 import ChooseColor from "./components/chosse-nav/ChooseColor.vue";
 import ChooseFont from "./components/chosse-nav/ChooseFont.vue";
 import ChooseSize from "./components/chosse-nav/ChooseSize.vue";
-
+import Test from "./components/Test.vue";
 export default {
   components: {
     ShowImage,
@@ -30,12 +31,14 @@ export default {
     ChooseFont,
     ChooseSize,
     HeaderApp,
+    Test,
   },
   data() {
     return {
       isActiveLight: true,
     };
   },
+
   // beforeCreate() {
   //   console.log("before Create");
   //   console.log("isActiveLight", this.isActiveLight);
@@ -55,18 +58,4 @@ export default {
   // },
 };
 </script>
-<style scoped>
-.container {
-  position: relative;
-  width: 500px;
-  height: 500px;
-  border: 1px solid black;
-}
-
-.draggable {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  background-color: red;
-}
-</style>
+<style scoped></style>

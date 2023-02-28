@@ -17,7 +17,7 @@
 export default {
   data() {
     return {
-      distance: 0,
+      // distance: 0,
       // neonTextSize: 0,
     };
   },
@@ -29,23 +29,27 @@ export default {
       const defaultBgWidth = 780; // px
       const demoTextWidth =
         (defaultBgWidth * defaultDemoTextSize) / distanceValue; // p
-      const fontSize = this.getFontSizeByWidth(demoTextWidth, "Breathing"); // p)
+      const fontSize = this.getFontSizeByWidth(
+        demoTextWidth,
+        this.$store.state.currentDemoFont
+      ); // p)
       this.$store.commit("setDemoTextFontSize", fontSize);
       this.$store.commit("setRealDimension", distanceValue);
     },
     getFontSizeByWidth(maxWidth, font) {
+      console.log(font);
+      var maxfontSize = 150;
+      var increment = 1;
       const text = this.$store.state.textInput;
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
       context.font = `${maxfontSize}px ${font}`;
-      var maxfontSize = 150;
-      var increment = 1;
       while (maxfontSize > 0) {
         context.font = `${maxfontSize}px ${font}`;
         // console.log(context.font);
         var width = context.measureText(text).width;
         // console.log(width);
-        // console.log(maxfontSize);
+        console.log(maxfontSize);
 
         if (width <= maxWidth) {
           console.log("max-font-zize:", maxfontSize);
@@ -53,7 +57,7 @@ export default {
         }
         maxfontSize -= increment;
       }
-      return (font = maxfontSize);
+      return 0 - maxfontSize;
     },
   },
 };
