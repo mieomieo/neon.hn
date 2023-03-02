@@ -14,6 +14,7 @@
     </div>
   </div>
   <Test class="mt-[300px] m-auto p-10" />
+  <!-- <header-app class="mt-[300px]" /> -->
 </template>
 <script>
 import HeaderApp from "./components/HeaderApp.vue";

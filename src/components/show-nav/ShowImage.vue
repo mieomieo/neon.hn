@@ -9,51 +9,64 @@
         background: previewImage
           ? `url(${previewImage})  no-repeat center center`
           : currentBackground,
-        'background-size': 'contain',
+        backgroundSize: backgroundSize,
       }"
     >
       <!-- Draggable // DemoText -->
-      <!-- <div class="demo-text-container"> -->
       <div
         ref="draggable"
-        class="neon-text dragText top-[30%] whitespace-pre-wrap bg-slate-400"
+        class="neon-text dragText top-[30%] whitespace-pre-wrap"
         :class="{
           'light-on': lightOn,
         }"
-        :style="{ lineHeight: calcSizeOfTextImage.height + 'px' }"
         @mousedown="startDrag"
         @touchstart.prevent="startDrag"
       >
-        <div class="h-auto inline-block ml-5 mb-5" v-html="demoText"></div>
+        <div
+          :style="{ lineHeight: calcSizeOfTextImage.height + 'px' }"
+          class="ml-5 mb-5"
+          v-html="demoText"
+        ></div>
         <!-- Ruler to illustrate for DemoText -->
-        <!--Height  -->
-        <div
-          ref="heightRulerOfDemoText"
-          class="dimension dimension-height absolute left-0 mr-10"
-          :style="{ height: calcSizeOfTextImage.height + 'px' }"
-        >
-          <p class="text-center text-white"></p>
-          <div class="relative h-full flex justify-center items-center">
-            <div class="line-1 absolute top-0 h-[1px] w-[8px] bg-white"></div>
-            <div
-              class="line-2 absolute bottom-0 h-[1px] w-[8px] bg-white"
-            ></div>
-            <div class="distance absolute h-full w-[1px] bg-white"></div>
+        <div v-if="isShowRulerOfDemoText">
+          <!--Height  -->
+          <div
+            ref="heightRulerOfDemoText"
+            class="dimension dimension-height absolute left-0 mr-10"
+            :style="{ height: calcSizeOfTextImage.height + 'px' }"
+          >
+            <p
+              class="text-center dimension-content absolute text-white -rotate-90"
+            ></p>
+            <div class="relative h-full flex justify-center items-center">
+              <div class="line-1 absolute top-0 h-[1px] w-[8px] bg-white"></div>
+              <div
+                class="line-2 absolute bottom-0 h-[1px] w-[8px] bg-white"
+              ></div>
+              <div class="distance absolute h-full w-[1px] bg-white"></div>
+            </div>
+          </div>
+          <!-- Width -->
+          <div
+            ref="widthRulerOfDemoText"
+            class="dimension dimension-width absolute bottom-0 translate-x-5"
+            :style="{ width: calcSizeOfTextImage.width + 'px' }"
+          >
+            <p class="dimension-content absolute text-white">
+              {{ dimensionOfDemoText.width }}
+            </p>
+            <div class="flex items-center relative">
+              <div
+                class="line-1 absolute left-0 h-[8px] w-[1px] bg-white"
+              ></div>
+              <div
+                class="line-2 absolute right-0 h-[8px] w-[1px] bg-white"
+              ></div>
+              <div class="distance absolute w-full h-[1px] bg-white"></div>
+            </div>
           </div>
         </div>
-        <!-- Width -->
-        <div
-          ref="widthRulerOfDemoText"
-          class="dimension dimension-width absolute bottom-0 translate-x-5"
-          :style="{ width: calcSizeOfTextImage.width + 'px' }"
-        >
-          <p class="text-center text-white"></p>
-          <div class="flex items-center relative">
-            <div class="line-1 absolute left-0 h-[8px] w-[1px] bg-white"></div>
-            <div class="line-2 absolute right-0 h-[8px] w-[1px] bg-white"></div>
-            <div class="distance absolute w-full h-[1px] bg-white"></div>
-          </div>
-        </div>
+        <!-- End Ruler -->
       </div>
       <!-- Ruler for illustration of Background Image -->
       <div
@@ -132,28 +145,30 @@ export default {
       currentBackground:
         "url('./assets/images/background/background1.jpg') no-repeat center center",
       dragging: false,
-      initialX: 0,
-      initialY: 0,
-      currentX: 0,
-      currentY: 0,
       isExecuted: false,
       previewImage: null,
-      flag: false, // For testing set data one time only
       containerRect: null,
       draggable: null,
       sizeOfBackgroundImage: 0,
+      isShowRulerOfDemoText: false,
+      backgroundSize: "",
     };
   },
   computed: {
+    dimensionOfDemoText() {
+      return {
+        width: this.$store.state.currentDimensionOfDemoText.width,
+        height: this.$store.state.currentDimensionOfDemoText.height,
+      };
+    },
     demoText() {
+      if (this.$store.state.textInput != "Your Text")
+        this.isShowRulerOfDemoText = true;
       return this.$store.state.textInput;
     },
     lightOn() {
       return this.$store.state.lightOn;
     },
-    // currentDemoFont() {
-    //   return this.$store.state.currentDemoFont;
-    // },
     currentColorOn() {
       const colorId = this.$store.state.currentColorId;
       return defaultColors.find((x) => x.id === colorId).colorOn;
@@ -175,34 +190,41 @@ export default {
     currentDemoTextFontSize() {
       return this.$store.state.currentDemoTextFontSize;
     },
-    currentWidthDemoText() {
-      return this.$store.state.currentWidthDemoText;
-    },
+
     calcSizeOfBackgroundImage() {
       return this.sizeOfBackgroundImage;
     },
     calcSizeOfTextImage() {
-      // console.log("calcHeight", this.sizeOfTextImage.height);
       const canvas = document.createElement("canvas");
-      // console.log("this.$refs.draggable", this.$refs.draggable.innerText);
-      // const demoTextContainer = this.$refs.draggable;
-      // canvas.append(this.$refs.draggable.innerText);
       const context = canvas.getContext("2d");
       context.font = `${this.currentDemoTextFontSize}px ${this.currentDemoFont}`;
-      context.font = `${this.currentDemoTextFontSize}px ${this.currentDemoFont}`;
-      //Note here maybe need condition
-      const metric = context.measureText(this.demoText);
-      //Cẩn thêm Tính toán lại currentX currentY
-      console.log("metric: ", metric);
-      const width =
-        metric.actualBoundingBoxRight - metric.actualBoundingBoxLeft;
-      const height =
-        metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent;
+      // get line height
+      // const lineHeight = parseInt(context.font) * 0.7; // adjust 1.2 to fit your design
+      // detect break line
+      const lines = this.demoText.split("\n");
+      let maxWidth = 0;
+      let totalHeight = 0;
 
+      lines.forEach((line) => {
+        const metric = context.measureText(line.trim());
+        const width =
+          metric.actualBoundingBoxRight - metric.actualBoundingBoxLeft;
+        const height =
+          metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent;
+        maxWidth = Math.max(maxWidth, width);
+        totalHeight += height;
+      });
       return {
-        width: width,
-        height: height,
+        width: maxWidth,
+        height: totalHeight,
       };
+    },
+    currentWidthDemoText() {
+      this.getFontSizeByWidth(
+        this.$store.state.currentWidthDemoText,
+        this.$store.state.currentDemoFont
+      );
+      return this.$store.state.currentWidthDemoText;
     },
   },
   methods: {
@@ -210,6 +232,28 @@ export default {
       this.$store.state.lightOn = !this.$store.state.lightOn;
       // this.$emit("toggleSwitch", this.lightActive);
       console.log(this.$store.state.lightOn);
+    },
+    getFontSizeByWidth(maxWidth, font) {
+      var maxFontSize = 300;
+      var increment = 1;
+      const text = this.$store.state.textInput;
+      var canvas = document.createElement("canvas");
+      var context = canvas.getContext("2d");
+      context.font = `${maxFontSize}px ${font}`;
+      while (maxFontSize > 0) {
+        context.font = `${maxFontSize}px ${font}`;
+        var width = context.measureText(text).width;
+        // console.log(maxFontSize);
+        if (width <= maxWidth) {
+          console.log("max-font-zize:", maxFontSize);
+          const fontSize = maxFontSize;
+          // console.log("font:", font);
+          this.$store.commit("setDemoTextFontSize", fontSize);
+          return fontSize;
+        }
+        maxFontSize -= increment;
+      }
+      return 0;
     },
     pickFile() {
       this.$refs.fileInput.click();
@@ -219,10 +263,21 @@ export default {
       if (file && file[0]) {
         let reader = new FileReader();
         reader.onload = (e) => {
-          this.previewImage = e.target.result;
+          let image = new Image();
+          image.onload = () => {
+            let aspectRatio = image.width / image.height;
+            // let container = this.$refs.container;
+            console.log("width", image.width, image.height);
+            if (aspectRatio > 1) {
+              this.backgroundSize = "contain";
+            } else {
+              this.backgroundSize = "cover";
+            }
+            this.previewImage = e.target.result;
+          };
+          image.src = e.target.result;
         };
         reader.readAsDataURL(file[0]);
-        // this.$emit("input", file[0]);
       }
     },
     handleChooseBackground(e) {
@@ -235,30 +290,22 @@ export default {
     },
     startDrag(event) {
       const draggable = this.$refs.draggable.getBoundingClientRect();
-      // const test = this.$refs.widthRulerOfDemoText.getBoundingClientRect();
-      // this.draggable = this.$refs.draggable.getBoundingClientRect();
-      console.log("X:", draggable.x);
-      console.log("Y:", draggable.y);
-      console.log("heigth:", draggable.height);
       if (event.type === "touchstart") {
         event.preventDefault();
         event = event.touches[0];
       }
       if (!this.isExecuted) {
-        console.log("Run isExecuted");
-        // this.currentX = draggable.x - draggable.width * 0.5;
-        this.currentX = draggable.x - this.calcSizeOfTextImage.width * 0.55;
-        this.currentY = draggable.y - this.calcSizeOfTextImage.height * 0.95;
+        this.currentX = draggable.x - this.calcSizeOfTextImage.width * 0.8; //Tinh chinh, tạo ra currentXY và initialXY trong data
+        this.currentY = draggable.y - this.calcSizeOfTextImage.height * 1.05;
         this.isExecuted = true;
-        console.log("CurrentX:", this.currentX);
-        console.log("CurrentY:", this.currentY);
+        // console.log("CurrentX:", this.currentX);
+        // console.log("CurrentY:", this.currentY);
       }
       this.dragging = true;
       // Calculate the initial position of the draggable element
       this.initialX = event.clientX - this.currentX;
       this.initialY = event.clientY - this.currentY;
-      console.log("this.initialX:", this.initialX);
-      console.log("this.initialY:", this.initialY);
+
       // Add event listeners to track the mouse movements
       document.addEventListener("mousemove", this.onDrag);
       document.addEventListener("touchmove", this.onDrag, { passive: false });
@@ -278,7 +325,7 @@ export default {
         // Check if the draggable element is within the boundaries of the container
         if (this.currentX < this.containerRect.width * 0.01) {
           this.currentX = this.containerRect.width * 0.01;
-          console.log(this.currentX);
+          // console.log(this.currentX);
         }
 
         if (
@@ -325,28 +372,6 @@ export default {
       document.removeEventListener("mousemove", this.onDrag);
       document.removeEventListener("mouseup", this.stopDrag);
     },
-    // getFontSizeByWidth(text, maxWidth, font) {
-    //   console.log(font);
-    //   var maxfontSize = 50;
-    //   var increment = 1;
-    //   var canvas = document.createElement("canvas");
-    //   var context = canvas.getContext("2d");
-    //   context.font = `${maxfontSize}px ${font}`;
-    //   while (maxfontSize > 0) {
-    //     context.font = `${maxfontSize}px ${font}`;
-    //     // console.log(context.font);
-    //     var width = context.measureText(text).width;
-    //     // console.log(width);
-    //     // console.log(maxfontSize);
-
-    //     if (width <= maxWidth) {
-    //       console.log("max-font-zize:", maxfontSize);
-    //       return maxfontSize;
-    //     }
-    //     maxfontSize -= increment;
-    //   }
-    //   return maxfontSize;
-    // },
   },
   mounted() {
     // Get the boundaries of the container element
@@ -356,14 +381,7 @@ export default {
     this.containerRect = JSON.parse(
       JSON.stringify(this.$refs.container.getBoundingClientRect())
     );
-    // this.widthRulerOfDemoText = JSON.parse(
-    //   JSON.stringify(this.$refs.widthRulerOfDemoText.getBoundingClientRect())
-    // );
     this.sizeOfBackgroundImage = this.$refs.container.offsetWidth;
-    // this.sizeOfTextImage.height = this.$refs.draggable.offsetHeight;
-    // this.sizeOfTextImage.width = this.$refs.draggable.offsetWidth;
-    // console.log("sizeOfTextImage.width", this.sizeOfTextImage.width);
-    // console.log("sizeOfTextImage.height", this.sizeOfTextImage.height);
     // let font = new FontFace(
     //   this.$store.state.currentDemoFont,
     //   `url(../assets/fonts/fonts/${this.$store.state.currentDemoFont}.ttf)`
@@ -384,7 +402,12 @@ export default {
 </script>
 <style scoped>
 @import "../../assets/fonts/font-face.css";
-
+.dimension-content {
+  font-size: 30px;
+  color: #fff;
+  font-family: "Courier New", Courier, monospace !important;
+  text-shadow: none o !important;
+}
 .dimension {
   opacity: 0.6;
 }
@@ -401,6 +424,7 @@ export default {
   width: v-bind(currentWidthDemoText + "px");
   font-size: v-bind(currentDemoTextFontSize + "px"); /*42px;*/
   font-family: v-bind(currentDemoFont), sans-serif;
+  /* line-height: 1 !important; */
   box-sizing: border-box;
   animation: pulsate 1.5s infinite alternate;
   /* border-radius: 2rem; */

@@ -3,7 +3,7 @@
     <input
       type="range"
       @input="handleRange"
-      min="100"
+      min="0"
       max="780"
       value="300"
       step="1"
@@ -14,7 +14,7 @@
     </div>
   </div>
 </template>
-<script>
+<script scoped>
 export default {
   components: {},
   computed: {
@@ -35,6 +35,9 @@ export default {
   /* width: v-bind(currentWidthDemoText + "px"); */
   width: v-bind(currentWidthDemoText + "px");
   height: auto;
+}
+input[type="range"] {
+  width: 800px;
 }
 </style>
 <!-- <template>

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="text-box">
     <div class="myText" ref="myText" :style="{ fontSize: fontSize + 'px' }">
       {{ text }}
@@ -69,4 +69,59 @@ export default {
   white-space: nowrap;
   /* font-size: v-bind(fontSize); */
 }
+</style> -->
+<template>
+  <div class="text-container bg-slate-500">
+    <p class="text" :style="{ fontSize: `${zoomValue}px` }">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    </p>
+    <input type="range" min="10" max="100" v-model="zoomValue" />
+  </div>
+</template>
+<script scoped>
+export default {
+  data() {
+    return {
+      zoomValue: 50,
+    };
+  },
+  mounted() {
+    const text = document.querySelector(".text");
+    const zoomRange = document.querySelector("input[type='range']");
+    zoomRange.addEventListener("input", function () {
+      const zoomValue = this.value;
+      text.style.fontSize = `${zoomValue}px`;
+    });
+  },
+};
+</script>
+<style scoped>
+.text-container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  display: inline-block;
+  margin: auto;
+}
+
+.text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  line-height: 1.5;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+input[type="range"] {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+}
 </style>
+<!-- Khai báo thư viện Javascript -->
