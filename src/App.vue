@@ -1,5 +1,5 @@
 <template>
-  <header-app />
+  <!-- <header-app /> -->
   <div ref="abc" class="w-3/4 mx-auto text-center flex justify-between">
     <div class="flex flex-col">
       <ChooseSize class="mb-5" />

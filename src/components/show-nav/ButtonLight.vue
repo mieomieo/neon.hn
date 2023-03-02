@@ -153,10 +153,10 @@ export default {
 <style scoped>
 label {
   width: 44px;
-  height: 20px;
+  height: 22px;
   position: relative;
   display: block;
-  background: rgba(#a39090, 0.8);
+  background: rgba(#f30f0f, 0.8);
   border-radius: 200px;
   box-shadow: inset 0px 5px 15px rgba(173, 173, 173, 0.8),
     inset 0px -5px 15px rgba(255, 255, 255, 0.4);
@@ -169,11 +169,11 @@ label:after {
   width: 18px;
   height: 18px;
   position: absolute;
-  top: 1px;
-  left: 1px;
-  background: linear-gradient(180deg, #a6f2ff, #1691a1);
+  top: 2px;
+  left: 1.5px;
+  background: linear-gradient(180deg, #6cb6c2, #2b7ddb);
   border-radius: 180px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); */
   transition: 0.3s;
 }
 input {
@@ -197,7 +197,8 @@ label svg {
   z-index: 100;
 }
 label svg.sun {
-  left: 4px;
+  left: 4.5px;
+  top: 5px;
   fill: #fff;
   transition: 0.3s;
 }

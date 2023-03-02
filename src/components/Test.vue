@@ -19,7 +19,7 @@ export default {
   components: {},
   computed: {
     currentWidthDemoText() {
-      console.log(this.$store.state.currentWidthDemoText);
+      // console.log(this.$store.state.currentWidthDemoText);
       return this.$store.state.currentWidthDemoText;
     },
   },

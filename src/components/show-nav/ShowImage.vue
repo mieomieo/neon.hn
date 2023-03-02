@@ -16,45 +16,48 @@
       <!-- <div class="demo-text-container"> -->
       <div
         ref="draggable"
-        class="neon-text dragText top-[30%] whitespace-pre-wrap bg-red"
+        class="neon-text dragText top-[30%] whitespace-pre-wrap bg-slate-400"
         :class="{
           'light-on': lightOn,
         }"
+        :style="{ lineHeight: calcSizeOfTextImage.height + 'px' }"
         @mousedown="startDrag"
         @touchstart.prevent="startDrag"
-        v-html="demoText"
-      ></div>
-
-      <!-- Ruler to illustrate for DemoText -->
-      <div
-        ref="widthRulerOfDemoText"
-        class="dimension absolute -translate-y-[10px]"
-        :style="{ width: calcSizeOfTextImage.width + 'px' }"
       >
-        <p class="text-center text-white"></p>
-        <div class="flex items-center relative">
-          <div class="line-1 absolute left-0 h-[5px] w-[1px] bg-white"></div>
-          <div class="line-2 absolute right-0 h-[5px] w-[1px] bg-white"></div>
-          <div class="distance absolute w-full h-[1px] bg-white"></div>
+        <div class="h-auto inline-block ml-5 mb-5" v-html="demoText"></div>
+        <!-- Ruler to illustrate for DemoText -->
+        <!--Height  -->
+        <div
+          ref="heightRulerOfDemoText"
+          class="dimension dimension-height absolute left-0 mr-10"
+          :style="{ height: calcSizeOfTextImage.height + 'px' }"
+        >
+          <p class="text-center text-white"></p>
+          <div class="relative h-full flex justify-center items-center">
+            <div class="line-1 absolute top-0 h-[1px] w-[8px] bg-white"></div>
+            <div
+              class="line-2 absolute bottom-0 h-[1px] w-[8px] bg-white"
+            ></div>
+            <div class="distance absolute h-full w-[1px] bg-white"></div>
+          </div>
+        </div>
+        <!-- Width -->
+        <div
+          ref="widthRulerOfDemoText"
+          class="dimension dimension-width absolute bottom-0 translate-x-5"
+          :style="{ width: calcSizeOfTextImage.width + 'px' }"
+        >
+          <p class="text-center text-white"></p>
+          <div class="flex items-center relative">
+            <div class="line-1 absolute left-0 h-[8px] w-[1px] bg-white"></div>
+            <div class="line-2 absolute right-0 h-[8px] w-[1px] bg-white"></div>
+            <div class="distance absolute w-full h-[1px] bg-white"></div>
+          </div>
         </div>
       </div>
-
-      <div
-        ref="heightRulerOfDemoText"
-        class="dimension top-[400px] absolute rotate-90 origin-top-left -translate-x-[10px]"
-        :style="{ width: calcSizeOfTextImage.height + 'px' }"
-      >
-        <p class="text-center text-white"></p>
-        <div class="flex justify-center items-center relative">
-          <div class="line-1 absolute left-0 h-[5px] w-[1px] bg-white"></div>
-          <div class="line-2 absolute right-0 h-[5px] w-[1px] bg-white"></div>
-          <div class="distance absolute w-full h-[1px] bg-white"></div>
-        </div>
-      </div>
-
       <!-- Ruler for illustration of Background Image -->
       <div
-        class="mt-10 absolute dimension"
+        class="mt-10 absolute dimension bottom-[15%]"
         :style="{ width: sizeOfBackgroundImage + 'px' }"
       >
         <p class="text-center text-white">
@@ -62,12 +65,12 @@
         </p>
         <div class="line-distance flex justify-center items-center relative">
           <div
-            class="line-1 absolute left-[8px] h-[5px] w-[1px] bg-white"
+            class="line-1 absolute left-[8px] h-[8px] w-[1px] bg-white"
           ></div>
           <div
-            class="line-2 absolute right-[8px] h-[5px] w-[1px] bg-white"
+            class="line-2 absolute right-[8px] h-[8px] w-[1px] bg-white"
           ></div>
-          <div class="distance absolute w-[764px] h-[1px] bg-white"></div>
+          <div class="distance absolute w-[764px] h-[2px] bg-white"></div>
         </div>
       </div>
       <!-- Button Light -->
@@ -133,17 +136,12 @@ export default {
       initialY: 0,
       currentX: 0,
       currentY: 0,
+      isExecuted: false,
       previewImage: null,
       flag: false, // For testing set data one time only
       containerRect: null,
       draggable: null,
-      sizeOfTextImage: {
-        width: 0,
-        height: 0,
-      },
       sizeOfBackgroundImage: 0,
-      rulerHorizontal: 0,
-      rulerVertical: 0,
     };
   },
   computed: {
@@ -191,16 +189,20 @@ export default {
       // canvas.append(this.$refs.draggable.innerText);
       const context = canvas.getContext("2d");
       context.font = `${this.currentDemoTextFontSize}px ${this.currentDemoFont}`;
+      context.font = `${this.currentDemoTextFontSize}px ${this.currentDemoFont}`;
+      //Note here maybe need condition
       const metric = context.measureText(this.demoText);
+      //Cẩn thêm Tính toán lại currentX currentY
       console.log("metric: ", metric);
+      const width =
+        metric.actualBoundingBoxRight - metric.actualBoundingBoxLeft;
+      const height =
+        metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent;
 
       return {
-        width: metric.actualBoundingBoxRight - metric.actualBoundingBoxLeft,
-        height:
-          metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent,
+        width: width,
+        height: height,
       };
-      // return metric.actualBoundingBoxRight - metric.actualBoundingBoxLeft;
-      // return metric.width;
     },
   },
   methods: {
@@ -235,21 +237,28 @@ export default {
       const draggable = this.$refs.draggable.getBoundingClientRect();
       // const test = this.$refs.widthRulerOfDemoText.getBoundingClientRect();
       // this.draggable = this.$refs.draggable.getBoundingClientRect();
-
+      console.log("X:", draggable.x);
+      console.log("Y:", draggable.y);
+      console.log("heigth:", draggable.height);
       if (event.type === "touchstart") {
         event.preventDefault();
         event = event.touches[0];
       }
       if (!this.isExecuted) {
-        this.currentX = draggable.x - draggable.width;
-        this.currentY = draggable.y;
+        console.log("Run isExecuted");
+        // this.currentX = draggable.x - draggable.width * 0.5;
+        this.currentX = draggable.x - this.calcSizeOfTextImage.width * 0.55;
+        this.currentY = draggable.y - this.calcSizeOfTextImage.height * 0.95;
         this.isExecuted = true;
+        console.log("CurrentX:", this.currentX);
+        console.log("CurrentY:", this.currentY);
       }
       this.dragging = true;
       // Calculate the initial position of the draggable element
       this.initialX = event.clientX - this.currentX;
       this.initialY = event.clientY - this.currentY;
-
+      console.log("this.initialX:", this.initialX);
+      console.log("this.initialY:", this.initialY);
       // Add event listeners to track the mouse movements
       document.addEventListener("mousemove", this.onDrag);
       document.addEventListener("touchmove", this.onDrag, { passive: false });
@@ -262,7 +271,6 @@ export default {
           event.preventDefault();
           event = event.touches[0];
         }
-
         // Calculate the current position of the draggable element
         this.currentX = event.clientX - this.initialX;
         this.currentY = event.clientY - this.initialY;
@@ -303,10 +311,6 @@ export default {
         // Update the position of the draggable element
         this.$refs.draggable.style.left = `${this.currentX}px`;
         this.$refs.draggable.style.top = `${this.currentY}px`;
-        this.$refs.widthRulerOfDemoText.style.left = `${this.currentX}px`;
-        this.$refs.widthRulerOfDemoText.style.top = `${this.currentY}px`;
-        this.$refs.heightRulerOfDemoText.style.left = `${this.currentX}px`;
-        this.$refs.heightRulerOfDemoText.style.top = `${this.currentY}px`;
       }
     },
     stopDrag(event) {
@@ -321,28 +325,28 @@ export default {
       document.removeEventListener("mousemove", this.onDrag);
       document.removeEventListener("mouseup", this.stopDrag);
     },
-    getFontSizeByWidth(text, maxWidth, font) {
-      console.log(font);
-      var maxfontSize = 50;
-      var increment = 1;
-      var canvas = document.createElement("canvas");
-      var context = canvas.getContext("2d");
-      context.font = `${maxfontSize}px ${font}`;
-      while (maxfontSize > 0) {
-        context.font = `${maxfontSize}px ${font}`;
-        // console.log(context.font);
-        var width = context.measureText(text).width;
-        // console.log(width);
-        console.log(maxfontSize);
+    // getFontSizeByWidth(text, maxWidth, font) {
+    //   console.log(font);
+    //   var maxfontSize = 50;
+    //   var increment = 1;
+    //   var canvas = document.createElement("canvas");
+    //   var context = canvas.getContext("2d");
+    //   context.font = `${maxfontSize}px ${font}`;
+    //   while (maxfontSize > 0) {
+    //     context.font = `${maxfontSize}px ${font}`;
+    //     // console.log(context.font);
+    //     var width = context.measureText(text).width;
+    //     // console.log(width);
+    //     // console.log(maxfontSize);
 
-        if (width <= maxWidth) {
-          console.log("max-font-zize:", maxfontSize);
-          return maxfontSize;
-        }
-        maxfontSize -= increment;
-      }
-      return maxfontSize;
-    },
+    //     if (width <= maxWidth) {
+    //       console.log("max-font-zize:", maxfontSize);
+    //       return maxfontSize;
+    //     }
+    //     maxfontSize -= increment;
+    //   }
+    //   return maxfontSize;
+    // },
   },
   mounted() {
     // Get the boundaries of the container element
@@ -356,34 +360,37 @@ export default {
     //   JSON.stringify(this.$refs.widthRulerOfDemoText.getBoundingClientRect())
     // );
     this.sizeOfBackgroundImage = this.$refs.container.offsetWidth;
-    this.sizeOfTextImage.height = this.$refs.draggable.offsetHeight;
-    this.sizeOfTextImage.width = this.$refs.draggable.offsetWidth;
-    console.log("sizeOfTextImage.width", this.sizeOfTextImage.width);
-    console.log("sizeOfTextImage.height", this.sizeOfTextImage.height);
-    let font = new FontFace(
-      this.$store.state.currentDemoFont,
-      `url(../assets/fonts/fonts/${this.$store.state.currentDemoFont}.ttf)`
-    );
-    font.load().then(() => {
-      document.fonts.add(font);
-      // console.log(font);
-      // this.fontLoaded = true;
-      const demoTextFontsize = this.getFontSizeByWidth(
-        this.demoText,
-        this.sizeOfTextImage.width,
-        this.currentDemoFont
-      );
-      console.log("demoTextFontsize", demoTextFontsize);
-    });
+    // this.sizeOfTextImage.height = this.$refs.draggable.offsetHeight;
+    // this.sizeOfTextImage.width = this.$refs.draggable.offsetWidth;
+    // console.log("sizeOfTextImage.width", this.sizeOfTextImage.width);
+    // console.log("sizeOfTextImage.height", this.sizeOfTextImage.height);
+    // let font = new FontFace(
+    //   this.$store.state.currentDemoFont,
+    //   `url(../assets/fonts/fonts/${this.$store.state.currentDemoFont}.ttf)`
+    // );
+    // font.load().then(() => {
+    //   document.fonts.add(font);
+    //   console.log("add font", font);
+    //   // this.fontLoaded = true;
+    //   const demoTextFontsize = this.getFontSizeByWidth(
+    //     this.demoText,
+    //     this.sizeOfTextImage.width,
+    //     this.currentDemoFont
+    //   );
+    //   console.log("demoTextFontsize", demoTextFontsize);
+    // });
   },
 };
 </script>
 <style scoped>
 @import "../../assets/fonts/font-face.css";
+
 .dimension {
   opacity: 0.6;
 }
-
+.dimension-height {
+  top: 0;
+}
 .dragText {
   cursor: move;
   position: absolute;
@@ -391,8 +398,7 @@ export default {
 }
 .neon-text {
   z-index: 100;
-  /* width: v-bind(currentWidthDemoText + "px"); */
-  /* width: 357px; */
+  width: v-bind(currentWidthDemoText + "px");
   font-size: v-bind(currentDemoTextFontSize + "px"); /*42px;*/
   font-family: v-bind(currentDemoFont), sans-serif;
   box-sizing: border-box;
@@ -401,6 +407,7 @@ export default {
   color: v-bind(currentColorOff);
   text-shadow: v-bind(currentTextshadowOff);
   transition: text-shadow 0.6s ease;
+  /* height: auto; */
 }
 .light-on {
   color: #fff;

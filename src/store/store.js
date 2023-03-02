@@ -8,7 +8,7 @@ export const store = createStore({
       textInput: "Your Text",
       currentColorId: 1,
       currentDemoTextFontSize: 70,
-      currentWidthDemoText: 300,
+      //currentWidthDemoText: 300,
       realDimensionInput: 0, // cm or inch
     };
   },
@@ -39,7 +39,7 @@ export const store = createStore({
     },
     setWidthDemoText(state, width) {
       state.currentWidthDemoText = width;
-      console.log(state.currentDemoTextWidth);
+      console.log(state.currentWidthDemoText);
     },
   },
 });

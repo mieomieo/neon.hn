@@ -316,9 +316,4 @@ export const fonts = [
     preview: "./assets/fonts/preview/wildscript.svg",
     src: "./assets/fonts/fonts/WildScript.ttf",
   },
-  {
-    label: "Alexa",
-    preview: "./assets/fonts/preview/alexa.svg",
-    src: "./assets/fonts/fonts/Alexa.ttf",
-  },
 ];
