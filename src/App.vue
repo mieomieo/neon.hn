@@ -1,5 +1,6 @@
 <template>
   <!-- <header-app /> -->
+
   <div ref="abc" class="w-3/4 mx-auto text-center flex justify-between">
     <div class="flex flex-col">
       <ChooseSize class="mb-5" />
@@ -13,7 +14,8 @@
       </div>
     </div>
   </div>
-  <Test class="mt-[300px] m-auto p-10" />
+  <Test class="mt-[100px] m-auto p-10" />
+
   <!-- <header-app class="mt-[300px]" /> -->
 </template>
 <script>

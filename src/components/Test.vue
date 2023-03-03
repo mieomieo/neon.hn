@@ -8,6 +8,8 @@
       value="300"
       step="1"
       class="slider"
+      @mousedown="handleActiveRange"
+      @mouseup="removeActiveRange"
     />
     <div class="testBox bg-slate-500">
       Demo Text Width: {{ currentWidthDemoText }}
@@ -16,7 +18,11 @@
 </template>
 <script scoped>
 export default {
-  components: {},
+  data() {
+    return {
+      isActiveInputRange: false,
+    };
+  },
   computed: {
     currentWidthDemoText() {
       // console.log(this.$store.state.currentWidthDemoText);
@@ -24,6 +30,14 @@ export default {
     },
   },
   methods: {
+    handleActiveRange() {
+      this.isActiveInputRange = true;
+      this.$store.commit("setCurrentInputRange", this.isActiveInputRange);
+    },
+    removeActiveRange() {
+      this.isActiveInputRange = false;
+      this.$store.commit("setCurrentInputRange", this.isActiveInputRange);
+    },
     handleRange(e) {
       console.log("handleRange");
       const currentWidthDemoText = e.target.value;

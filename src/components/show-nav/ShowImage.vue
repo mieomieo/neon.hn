@@ -3,7 +3,7 @@
     <!-- Background Image -->
     <div
       ref="container"
-      class="box-border relative h-full w-full border-x-8 border-stone-800 flex justify-center"
+      class="overflow-hidden box-border relative h-full w-full border-x-8 border-stone-800 flex justify-center"
       :style="{
         transition: 'background-image 0.5s ease-in-out',
         background: previewImage
@@ -13,25 +13,35 @@
       }"
     >
       <!-- Draggable // DemoText -->
+      <!-- lineHeight: '1', -->
       <div
         ref="draggable"
         class="neon-text dragText top-[30%]"
         :class="{
           'light-on': lightOn,
         }"
+        :style="{
+          // lineHeight: calcSizeOfTextImage.height + 'px',
+        }"
         @mousedown="startDrag"
         @touchstart.prevent="startDrag"
       >
+        <!-- display: 'inline', -->
         <div
           :style="{
-            lineHeight: '1.2!important',
-            display: 'inline',
+            width: this.isActiveInputRange
+              ? currentWidthDemoText + 'px'
+              : 'auto',
           }"
           class="ml-5 mb-5 demoText whitespace-nowrap"
           v-html="demoText"
         ></div>
+
         <!-- Ruler to illustrate for DemoText -->
-        <div v-if="isShowRulerOfDemoText" class="mt-10">
+        <div
+          v-if="isShowRulerOfDemoText && isActiveInputRange == false"
+          class="mt-10"
+        >
           <!--Height  -->
           <div
             ref="heightRulerOfDemoText"
@@ -158,11 +168,20 @@ export default {
       draggable: null,
       sizeOfBackgroundImage: 0,
       isShowRulerOfDemoText: false,
-      backgroundSize: "",
-      isFirstTime: true,
+      backgroundSize: "", // check background size khi upload image
+      // isActiveInputRange: false, // kiem tra xem co active width cua demoText khong?
     };
   },
   computed: {
+    isActiveInputRange() {
+      // this.isActiveInputRange = this.$store.state.isActiveInputRange;
+      console.log(
+        "this.isActiveInputRange",
+        this.$store.state.currentInputRange
+      );
+      // return this.isActiveInputRange;
+      return this.$store.state.currentInputRange;
+    },
     dimensionOfDemoText() {
       return {
         width: this.$store.state.currentDimensionOfDemoText.width,
@@ -251,7 +270,7 @@ export default {
     getFontSizeByWidth(maxWidth, font) {
       var maxFontSize = 150;
       var increment = 1;
-      const text = this.$store.state.textInput;
+      const text = this.demoText;
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
       context.font = `${maxFontSize}px ${font}`;
@@ -407,16 +426,18 @@ export default {
 <style scoped>
 @import "../../assets/fonts/font-face.css";
 .demoText {
-  width: v-bind(currentWidthDemoText + "px");
+  /* width: v-bind(currentWidthDemoText + "px");*/
+  line-height: 1;
+  /* transform: scale(2); */
 }
 .neon-text {
   z-index: 100;
   font-size: v-bind(currentDemoTextFontSize + "px"); /*42px;*/
   font-family: v-bind(currentDemoFont), sans-serif;
-  /* line-height: 1 !important; */
   box-sizing: border-box;
   animation: pulsate 1.5s infinite alternate;
   /* border-radius: 2rem; */
+
   color: v-bind(currentColorOff);
   text-shadow: v-bind(currentTextshadowOff);
   transition: text-shadow 0.6s ease;

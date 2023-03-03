@@ -15,6 +15,7 @@ export const store = createStore({
         width: 0,
         height: 0,
       },
+      currentInputRange: false,
     };
   },
   actions: {},
@@ -30,7 +31,7 @@ export const store = createStore({
       // state.currentSrcFont = item.src;
       state.currentDemoFont = item;
       // console.log(state.currentDemoFont);
-      console.log(state.currentDemoFont);
+      // console.log(state.currentDemoFont);
     },
     setTextInput(state, payload) {
       state.textInput = payload;
@@ -44,16 +45,20 @@ export const store = createStore({
     },
     setWidthDemoText(state, width) {
       state.currentWidthDemoText = width;
-      console.log(state.currentWidthDemoText);
+      // console.log(state.currentWidthDemoText);
     },
     setDimensionOfDemoText(state, dimensionOfDemoText) {
-      console.log("in store");
-      console.log("dimensionOfDemoText.width", dimensionOfDemoText.width);
+      // console.log("in store");
+      // console.log("dimensionOfDemoText.width", dimensionOfDemoText.width);
       state.currentDimensionOfDemoText.width = dimensionOfDemoText.width;
       state.currentDimensionOfDemoText.height = dimensionOfDemoText.height;
     },
     setRealDimensionInput(state, realDimension) {
       state.realDimensionInput = realDimension;
+    },
+    setCurrentInputRange(state, current) {
+      state.currentInputRange = current;
+      console.log(current);
     },
   },
 });
