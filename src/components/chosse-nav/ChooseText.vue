@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <label for=""> Type Here </label>
-    <p
+    <!-- <p
       contenteditable="true"
       class="bg-slate-200 h-[80px]"
       type="text"
@@ -9,7 +9,18 @@
       @click="DeleteText"
       placeholder="Your Text"
       v-html="placeholder"
-    ></p>
+    ></p> -->
+    <textarea
+      type="text"
+      @input="HandleInput"
+      class="bg-slate-200 h-[80px]"
+      placeholder="ENTER TEXT HERE 
+Press Enter for a new line "
+      name=""
+      id="input_text"
+      cols="30"
+      rows="10"
+    ></textarea>
   </div>
   <div class="text-align-btn flex justify-between">
     <div class="btn-text-align cursor-pointer w-1/6 text-gray-300">
@@ -49,8 +60,14 @@ export default {
     DeleteText() {
       this.placeholder = "";
     },
+    // HandleInput(event) {
+    //   console.log("handleInput: ", event.target.innerText);
+    //   this.$store.commit("setTextInput", event.target.innerText);
+    // },
     HandleInput(event) {
-      this.$store.commit("setTextInput", event.target.innerText);
+      const inputText = event.target.value;
+      const formattedText = inputText.replace(/(\r\n|\n|\r)/gm, "<br>");
+      this.$store.commit("setTextInput", formattedText);
     },
   },
 };
@@ -58,5 +75,12 @@ export default {
 <style scoped>
 svg path {
   fill: rgb(203 213 225);
+}
+textarea#input_text {
+  text-align: center;
+  padding-top: 6%;
+  background: #f5f5f5;
+  border-radius: 15px;
+  border: 1px solid #b9b9b9;
 }
 </style>

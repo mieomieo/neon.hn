@@ -15,7 +15,7 @@
       <!-- Draggable // DemoText -->
       <div
         ref="draggable"
-        class="neon-text dragText top-[30%] whitespace-pre-wrap"
+        class="neon-text dragText top-[30%] whitespace-nowrap"
         :class="{
           'light-on': lightOn,
         }"
@@ -28,12 +28,13 @@
           v-html="demoText"
         ></div>
         <!-- Ruler to illustrate for DemoText -->
-        <div v-if="isShowRulerOfDemoText" class="mt-20">
+        <div v-if="isShowRulerOfDemoText" class="mt-10">
           <!--Height  -->
+          <!-- :style="{ height: calcSizeOfTextImage.height + 'px' }" -->
           <div
+            :style="{ height: '1.2em' }"
             ref="heightRulerOfDemoText"
             class="dimension dimension-height absolute left-0 mr-10"
-            :style="{ height: calcSizeOfTextImage.height + 'px' }"
           >
             <p
               class="text-center dimension-content absolute text-white -rotate-90"
@@ -61,7 +62,13 @@
               ></div>
               <div class="distance absolute w-full h-[1px] bg-white"></div>
             </div>
-            <p class="dimension-content">{{ dimensionOfDemoText.width }}cm</p>
+            <p class="dimension-content">
+              {{
+                dimensionOfDemoText.width != 0
+                  ? dimensionOfDemoText.width + "cm"
+                  : ""
+              }}
+            </p>
           </div>
         </div>
         <!-- End Ruler -->
@@ -200,7 +207,7 @@ export default {
       // get line height
       // const lineHeight = parseInt(context.font) * 0.7; // adjust 1.2 to fit your design
       // detect break line
-      const lines = this.demoText.split("\n");
+      const lines = this.demoText.split("<br>");
       let maxWidth = 0;
       let totalHeight = 0;
 
@@ -226,6 +233,7 @@ export default {
       };
     },
     currentWidthDemoText() {
+      // phải cập nhật lại width sao cho bằng đúng width của text
       this.getFontSizeByWidth(
         this.$store.state.currentWidthDemoText,
         this.$store.state.currentDemoFont
@@ -240,8 +248,8 @@ export default {
       console.log(this.$store.state.lightOn);
     },
     getFontSizeByWidth(maxWidth, font) {
-      var maxFontSize = 300;
-      var increment = 2;
+      var maxFontSize = 150;
+      var increment = 1;
       const text = this.$store.state.textInput;
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
@@ -399,6 +407,7 @@ export default {
 @import "../../assets/fonts/font-face.css";
 .neon-text {
   z-index: 100;
+  /* phải để width bằng đúng width của text */
   width: v-bind(currentWidthDemoText + "px");
   font-size: v-bind(currentDemoTextFontSize + "px"); /*42px;*/
   font-family: v-bind(currentDemoFont), sans-serif;

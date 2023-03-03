@@ -4,7 +4,7 @@
       type="range"
       @input="handleRange"
       min="0"
-      max="780"
+      max="600"
       value="300"
       step="1"
       class="slider"

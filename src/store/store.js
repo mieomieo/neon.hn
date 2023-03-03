@@ -5,10 +5,10 @@ export const store = createStore({
     return {
       lightOn: true,
       currentDemoFont: "Alexa",
-      textInput: "YourText",
+      textInput: "Your Text",
       currentColorId: 1,
       currentDemoTextFontSize: 50,
-      currentWidthDemoText: 0,
+      currentWidthDemoText: 200,
       realDimensionInput: 0, // cm or inch
       realDimensionDemoText: 0,
       currentDimensionOfDemoText: {
