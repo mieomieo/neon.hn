@@ -15,7 +15,7 @@
       <!-- Draggable // DemoText -->
       <div
         ref="draggable"
-        class="neon-text dragText top-[30%] whitespace-nowrap"
+        class="neon-text dragText top-[30%]"
         :class="{
           'light-on': lightOn,
         }"
@@ -23,18 +23,20 @@
         @touchstart.prevent="startDrag"
       >
         <div
-          :style="{ lineHeight: calcSizeOfTextImage.height + 'px' }"
-          class="ml-5 mb-5"
+          :style="{
+            lineHeight: '1.2!important',
+            display: 'inline',
+          }"
+          class="ml-5 mb-5 demoText whitespace-nowrap"
           v-html="demoText"
         ></div>
         <!-- Ruler to illustrate for DemoText -->
         <div v-if="isShowRulerOfDemoText" class="mt-10">
           <!--Height  -->
-          <!-- :style="{ height: calcSizeOfTextImage.height + 'px' }" -->
           <div
-            :style="{ height: '1.2em' }"
             ref="heightRulerOfDemoText"
             class="dimension dimension-height absolute left-0 mr-10"
+            :style="{ height: calcSizeOfTextImage.height + 'px' }"
           >
             <p
               class="text-center dimension-content absolute text-white -rotate-90"
@@ -233,7 +235,6 @@ export default {
       };
     },
     currentWidthDemoText() {
-      // phải cập nhật lại width sao cho bằng đúng width của text
       this.getFontSizeByWidth(
         this.$store.state.currentWidthDemoText,
         this.$store.state.currentDemoFont
@@ -405,10 +406,11 @@ export default {
 </script>
 <style scoped>
 @import "../../assets/fonts/font-face.css";
+.demoText {
+  width: v-bind(currentWidthDemoText + "px");
+}
 .neon-text {
   z-index: 100;
-  /* phải để width bằng đúng width của text */
-  width: v-bind(currentWidthDemoText + "px");
   font-size: v-bind(currentDemoTextFontSize + "px"); /*42px;*/
   font-family: v-bind(currentDemoFont), sans-serif;
   /* line-height: 1 !important; */
