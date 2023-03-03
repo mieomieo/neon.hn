@@ -189,7 +189,7 @@ export default {
       };
     },
     demoText() {
-      if (this.$store.state.textInput != "YourText")
+      if (this.$store.state.textInput != "Your Text")
         this.isShowRulerOfDemoText = true;
       return this.$store.state.textInput;
     },

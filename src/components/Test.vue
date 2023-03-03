@@ -10,6 +10,8 @@
       class="slider"
       @mousedown="handleActiveRange"
       @mouseup="removeActiveRange"
+      @touchstart="handleActiveRange"
+      @touchend="removeActiveRange"
     />
     <div class="testBox bg-slate-500">
       Demo Text Width: {{ currentWidthDemoText }}
