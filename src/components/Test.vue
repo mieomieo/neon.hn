@@ -25,7 +25,24 @@ export default {
   },
   methods: {
     handleRange(e) {
+      console.log("handleRange");
+      const currentWidthDemoText = e.target.value;
       this.$store.commit("setWidthDemoText", e.target.value);
+      const defaultBgWidth = 780; // px
+      const widthDimensionOfDemoText = //proportional : ti le thuan
+        Math.round(
+          (this.$store.state.realDimensionInput * currentWidthDemoText) /
+            defaultBgWidth
+        ); // cm
+
+      const heightDimensionOfDemoText =
+        (widthDimensionOfDemoText * 50) / currentWidthDemoText; //cm
+      const dimensionsOfDemoText = {
+        width: widthDimensionOfDemoText,
+        height: heightDimensionOfDemoText,
+      };
+
+      this.$store.commit("setDimensionOfDemoText", dimensionsOfDemoText);
     },
   },
 };
@@ -40,45 +57,3 @@ input[type="range"] {
   width: 800px;
 }
 </style>
-<!-- <template>
-  <div class="testBox bg-slate-500" :style="{ width: width + 'px' }">
-    1234
-    <div>214</div>
-    <div>235325</div>
-    <input
-      type="range"
-      @input="handleRange"
-      min="100"
-      max="780"
-      step="1"
-      class="slider"
-    />
-  </div>
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      currentWidthDemoText: 300,
-    };
-  },
-  computed: {
-    width() {
-      return this.currentWidthDemoText;
-    },
-  },
-  methods: {
-    handleRange(e) {
-      this.currentWidthDemoText = e.target.value;
-      this.$store.commit("setWidthDemoText", e.target.value);
-    },
-  },
-};
-</script>
-
-<style scoped>
-.testBox {
-  height: auto;
-}
-</style> -->

@@ -28,7 +28,7 @@
           v-html="demoText"
         ></div>
         <!-- Ruler to illustrate for DemoText -->
-        <div v-if="isShowRulerOfDemoText">
+        <div v-if="isShowRulerOfDemoText" class="mt-20">
           <!--Height  -->
           <div
             ref="heightRulerOfDemoText"
@@ -52,9 +52,6 @@
             class="dimension dimension-width absolute bottom-0 translate-x-5"
             :style="{ width: calcSizeOfTextImage.width + 'px' }"
           >
-            <p class="dimension-content absolute text-white">
-              {{ dimensionOfDemoText.width }}
-            </p>
             <div class="flex items-center relative">
               <div
                 class="line-1 absolute left-0 h-[8px] w-[1px] bg-white"
@@ -64,6 +61,7 @@
               ></div>
               <div class="distance absolute w-full h-[1px] bg-white"></div>
             </div>
+            <p class="dimension-content">{{ dimensionOfDemoText.width }}cm</p>
           </div>
         </div>
         <!-- End Ruler -->
@@ -152,6 +150,7 @@ export default {
       sizeOfBackgroundImage: 0,
       isShowRulerOfDemoText: false,
       backgroundSize: "",
+      isFirstTime: true,
     };
   },
   computed: {
@@ -162,7 +161,7 @@ export default {
       };
     },
     demoText() {
-      if (this.$store.state.textInput != "Your Text")
+      if (this.$store.state.textInput != "YourText")
         this.isShowRulerOfDemoText = true;
       return this.$store.state.textInput;
     },
@@ -214,9 +213,16 @@ export default {
         maxWidth = Math.max(maxWidth, width);
         totalHeight += height;
       });
+      const metric = context.measureText(this.demoText);
+      const height =
+        metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent;
+      const width =
+        metric.actualBoundingBoxRight - metric.actualBoundingBoxLeft;
       return {
         width: maxWidth,
         height: totalHeight,
+        // width: width,
+        // height: height,
       };
     },
     currentWidthDemoText() {
@@ -235,7 +241,7 @@ export default {
     },
     getFontSizeByWidth(maxWidth, font) {
       var maxFontSize = 300;
-      var increment = 1;
+      var increment = 2;
       const text = this.$store.state.textInput;
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
@@ -247,9 +253,13 @@ export default {
         if (width <= maxWidth) {
           console.log("max-font-zize:", maxFontSize);
           const fontSize = maxFontSize;
-          // console.log("font:", font);
+          if (!this.isFirstTime) {
+            this.isFirstTime = false;
+            this.$store.commit("setDemoTextFontSize", fontSize);
+          }
           this.$store.commit("setDemoTextFontSize", fontSize);
-          return fontSize;
+          // return fontSize;
+          break;
         }
         maxFontSize -= increment;
       }
@@ -382,43 +392,11 @@ export default {
       JSON.stringify(this.$refs.container.getBoundingClientRect())
     );
     this.sizeOfBackgroundImage = this.$refs.container.offsetWidth;
-    // let font = new FontFace(
-    //   this.$store.state.currentDemoFont,
-    //   `url(../assets/fonts/fonts/${this.$store.state.currentDemoFont}.ttf)`
-    // );
-    // font.load().then(() => {
-    //   document.fonts.add(font);
-    //   console.log("add font", font);
-    //   // this.fontLoaded = true;
-    //   const demoTextFontsize = this.getFontSizeByWidth(
-    //     this.demoText,
-    //     this.sizeOfTextImage.width,
-    //     this.currentDemoFont
-    //   );
-    //   console.log("demoTextFontsize", demoTextFontsize);
-    // });
   },
 };
 </script>
 <style scoped>
 @import "../../assets/fonts/font-face.css";
-.dimension-content {
-  font-size: 30px;
-  color: #fff;
-  font-family: "Courier New", Courier, monospace !important;
-  text-shadow: none o !important;
-}
-.dimension {
-  opacity: 0.6;
-}
-.dimension-height {
-  top: 0;
-}
-.dragText {
-  cursor: move;
-  position: absolute;
-  user-select: none;
-}
 .neon-text {
   z-index: 100;
   width: v-bind(currentWidthDemoText + "px");
@@ -431,8 +409,27 @@ export default {
   color: v-bind(currentColorOff);
   text-shadow: v-bind(currentTextshadowOff);
   transition: text-shadow 0.6s ease;
+  font-size-adjust: 0.5;
   /* height: auto; */
 }
+.dimension-content {
+  font-size: 20px;
+  color: #fff;
+  font-family: "Courier New", Courier, monospace !important;
+  text-shadow: none !important;
+}
+.dimension {
+  opacity: 0.6;
+}
+.dimension-height {
+  top: 0;
+}
+.dragText {
+  cursor: move;
+  position: absolute;
+  user-select: none;
+}
+
 .light-on {
   color: #fff;
   text-shadow: v-bind(currentColorOn);
