@@ -69,7 +69,23 @@ export default {
   width: v-bind(currentWidthDemoText + "px");
   height: auto;
 }
+
 input[type="range"] {
+  -webkit-appearance: none;
+  height: 10px;
+  background: #ddd;
+  outline: none;
+  padding: 0;
+  border-radius: 5px;
   width: 800px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 50px;
+  height: 50px;
+  background: #333;
+  cursor: pointer;
+  border-radius: 50%;
 }
 </style>
