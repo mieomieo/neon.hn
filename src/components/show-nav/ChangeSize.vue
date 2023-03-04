@@ -7,15 +7,15 @@
       max="600"
       value="300"
       step="1"
-      class="slider"
       @mousedown="handleActiveRange"
       @mouseup="removeActiveRange"
       @touchstart="handleActiveRange"
       @touchend="removeActiveRange"
+      class="progress"
+      :style="{
+        background: `linear-gradient(to right, #82CFD0 0%, #82CFD0 ${this.value}%, #fff ${this.value}%, white 100%)`,
+      }"
     />
-    <div class="testBox bg-slate-500">
-      Demo Text Width: {{ currentWidthDemoText }}
-    </div>
   </div>
 </template>
 <script scoped>
@@ -23,6 +23,7 @@ export default {
   data() {
     return {
       isActiveInputRange: false,
+      value: 50,
     };
   },
   computed: {
@@ -43,6 +44,7 @@ export default {
     handleRange(e) {
       console.log("handleRange");
       const currentWidthDemoText = e.target.value;
+      this.value = Math.round(e.target.value / 6);
       this.$store.commit("setWidthDemoText", e.target.value);
       const defaultBgWidth = 780; // px
       const widthDimensionOfDemoText = //proportional : ti le thuan
@@ -64,28 +66,29 @@ export default {
 };
 </script>
 <style scoped>
-.testBox {
-  /* width: v-bind(currentWidthDemoText + "px"); */
-  width: v-bind(currentWidthDemoText + "px");
-  height: auto;
-}
-
-input[type="range"] {
-  -webkit-appearance: none;
-  height: 10px;
-  background: #ddd;
+.progress {
+  background: linear-gradient(
+    to right,
+    #82cfd0 0%,
+    #82cfd0 40%,
+    #fff 40%,
+    #fff 100%
+  );
+  /* border: solid 2px #82cfd0; */
+  border-radius: 8px;
+  height: 7px;
+  width: 200px;
   outline: none;
-  padding: 0;
-  border-radius: 5px;
-  width: 800px;
+  transition: background 450ms ease-in;
+  -webkit-appearance: none;
 }
 
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 50px;
-  height: 50px;
-  background: #333;
-  cursor: pointer;
+.progress::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
+  -webkit-appearance: none;
+  cursor: ew-resize;
+  background: #fffbfb;
 }
 </style>

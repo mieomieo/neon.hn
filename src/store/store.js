@@ -3,9 +3,12 @@ import { createStore } from "vuex";
 export const store = createStore({
   state() {
     return {
+      currentUnit: "inch",
       lightOn: true,
       currentDemoFont: "Alexa",
       textInput: "Your Text",
+      currentTextAlign: "left",
+      // "<span>Your</span><br><span>Text</span><br><span>ABC</span><br> <span>Thhjhgj</span>",
       currentColorId: 1,
       currentDemoTextFontSize: 50,
       currentWidthDemoText: 200,
@@ -20,6 +23,12 @@ export const store = createStore({
   },
   actions: {},
   mutations: {
+    setCurrentTextAlign(state, currentTextAlign) {
+      state.currentTextAlign = currentTextAlign;
+    },
+    SetCurrentUnit(state, unit) {
+      state.currentUnit = unit;
+    },
     SetColor(state, id) {
       state.currentColorId = id;
       // state.currentColorOff.color = item.colorOff.color;

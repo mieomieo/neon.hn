@@ -13,10 +13,9 @@
       }"
     >
       <!-- Draggable // DemoText -->
-      <!-- lineHeight: '1', -->
       <div
         ref="draggable"
-        class="neon-text dragText top-[30%]"
+        class="neon-text dragText top-[30%] z-10 relative inline-block"
         :class="{
           'light-on': lightOn,
         }"
@@ -26,27 +25,31 @@
         @mousedown="startDrag"
         @touchstart.prevent="startDrag"
       >
-        <!-- display: 'inline', -->
         <div
+          ref="demoTextHeight"
           :style="{
             width: this.isActiveInputRange
               ? currentWidthDemoText + 'px'
               : 'auto',
+            height: 'auto',
+            lineHeight: 'auto',
+            display: this.isActiveInputRange ? 'flex' : 'inline-block',
+            textAlign: this.$store.state.currentTextAlign,
           }"
-          class="ml-5 mb-5 demoText whitespace-nowrap"
+          class="ml-5 mb-5 demoText whitespace-nowrap align-top"
           v-html="demoText"
         ></div>
-
         <!-- Ruler to illustrate for DemoText -->
-        <div
-          v-if="isShowRulerOfDemoText && isActiveInputRange == false"
-          class="mt-10"
-        >
+        <div v-if="isShowRulerOfDemoText" class="mt-10">
           <!--Height  -->
           <div
             ref="heightRulerOfDemoText"
-            class="dimension dimension-height absolute left-0 mr-10"
-            :style="{ height: calcSizeOfTextImage.height + 'px' }"
+            class="dimension dimension-height absolute left-0"
+            :style="{
+              height: this.hasLineBreak
+                ? calcSizeOfTextImage.height + 'px'
+                : calcSizeOfTextImage.heightOneLine + 'px',
+            }"
           >
             <p
               class="text-center dimension-content absolute text-white -rotate-90"
@@ -77,7 +80,7 @@
             <p class="dimension-content">
               {{
                 dimensionOfDemoText.width != 0
-                  ? dimensionOfDemoText.width + "cm"
+                  ? dimensionOfDemoText.width + " " + currentUnit
                   : ""
               }}
             </p>
@@ -87,11 +90,12 @@
       </div>
       <!-- Ruler for illustration of Background Image -->
       <div
+        v-if="this.$store.state.realDimensionInput"
         class="mt-10 absolute dimension bottom-[15%]"
         :style="{ width: sizeOfBackgroundImage + 'px' }"
       >
         <p class="text-center text-white">
-          {{ this.$store.state.realDimensionInput }}cm
+          {{ this.$store.state.realDimensionInput + " " + currentUnit }}
         </p>
         <div class="line-distance flex justify-center items-center relative">
           <div
@@ -103,6 +107,9 @@
           <div class="distance absolute w-[764px] h-[2px] bg-white"></div>
         </div>
       </div>
+      <!-- Range bar -->
+      <ChangeSize class="p-3 absolute left-0 top-0" />
+
       <!-- Button Light -->
       <ButtonLight
         class="absolute right-2 top-5 inline-flex items-center cursor-pointer"
@@ -151,19 +158,22 @@
 import CarouselCoverflow from "./CarouselCoverflow.vue";
 import { colors as defaultColors } from "../../constants";
 import ButtonLight from "./ButtonLight.vue";
-
+import ChangeSize from "./ChangeSize.vue";
 export default {
   components: {
     CarouselCoverflow,
     ButtonLight,
+    ChangeSize,
   },
   data() {
     return {
+      hasLineBreak: false,
       currentBackground:
         "url('./assets/images/background/background1.jpg') no-repeat center center",
       dragging: false,
       isExecuted: false,
       previewImage: null,
+      // demoTextHeight: null,
       containerRect: null,
       draggable: null,
       sizeOfBackgroundImage: 0,
@@ -173,6 +183,9 @@ export default {
     };
   },
   computed: {
+    currentUnit() {
+      return this.$store.state.currentUnit;
+    },
     isActiveInputRange() {
       // this.isActiveInputRange = this.$store.state.isActiveInputRange;
       console.log(
@@ -189,8 +202,12 @@ export default {
       };
     },
     demoText() {
-      if (this.$store.state.textInput != "Your Text")
+      if (this.$store.state.textInput != "Your Text") {
         this.isShowRulerOfDemoText = true;
+      }
+      if (this.$store.state.textInput.includes("<br>")) {
+        this.hasLineBreak = true;
+      }
       return this.$store.state.textInput;
     },
     lightOn() {
@@ -226,31 +243,34 @@ export default {
       const context = canvas.getContext("2d");
       context.font = `${this.currentDemoTextFontSize}px ${this.currentDemoFont}`;
       // get line height
-      // const lineHeight = parseInt(context.font) * 0.7; // adjust 1.2 to fit your design
+      const lineHeight = parseInt(context.font); // adjust 1.2 to fit your design
       // detect break line
       const lines = this.demoText.split("<br>");
       let maxWidth = 0;
       let totalHeight = 0;
-
+      let heightOneLine = 0;
+      let longestLine = "";
+      // console.log("lineHeigth =", this.getLineHeight(this.$refs.demoText));
       lines.forEach((line) => {
         const metric = context.measureText(line.trim());
         const width =
           metric.actualBoundingBoxRight - metric.actualBoundingBoxLeft;
         const height =
           metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent;
+        if (width > maxWidth) {
+          maxWidth = width;
+          longestLine = line;
+        }
         maxWidth = Math.max(maxWidth, width);
-        totalHeight += height;
+        // totalHeight += lineHeight;
+        totalHeight += lineHeight;
+        heightOneLine = height;
       });
-      const metric = context.measureText(this.demoText);
-      const height =
-        metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent;
-      const width =
-        metric.actualBoundingBoxRight - metric.actualBoundingBoxLeft;
       return {
         width: maxWidth,
         height: totalHeight,
-        // width: width,
-        // height: height,
+        heightOneLine: heightOneLine,
+        longestLine: longestLine,
       };
     },
     currentWidthDemoText() {
@@ -268,9 +288,12 @@ export default {
       console.log(this.$store.state.lightOn);
     },
     getFontSizeByWidth(maxWidth, font) {
-      var maxFontSize = 150;
+      var maxFontSize = 250;
       var increment = 1;
-      const text = this.demoText;
+      let text = this.demoText;
+      if (this.hasLineBreak) {
+        text = this.calcSizeOfTextImage.longestLine;
+      }
       var canvas = document.createElement("canvas");
       var context = canvas.getContext("2d");
       context.font = `${maxFontSize}px ${font}`;
@@ -419,6 +442,7 @@ export default {
     this.containerRect = JSON.parse(
       JSON.stringify(this.$refs.container.getBoundingClientRect())
     );
+    // this.demoTextHeight = this.$refs.demoTextHeight.getBoundingClientRect();
     this.sizeOfBackgroundImage = this.$refs.container.offsetWidth;
   },
 };
@@ -428,6 +452,7 @@ export default {
 .demoText {
   /* width: v-bind(currentWidthDemoText + "px");*/
   line-height: 1;
+
   /* transform: scale(2); */
 }
 .neon-text {
@@ -437,7 +462,6 @@ export default {
   box-sizing: border-box;
   animation: pulsate 1.5s infinite alternate;
   /* border-radius: 2rem; */
-
   color: v-bind(currentColorOff);
   text-shadow: v-bind(currentTextshadowOff);
   transition: text-shadow 0.6s ease;
@@ -445,9 +469,11 @@ export default {
   /* height: auto; */
 }
 .dimension-content {
-  font-size: 20px;
+  font-size: 16px;
   color: #fff;
-  font-family: "Courier New", Courier, monospace !important;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   text-shadow: none !important;
 }
 .dimension {

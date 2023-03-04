@@ -1,13 +1,29 @@
 <template>
   <div class="flex">
     <div>
-      <label for="">Real Distance(cm/inch):</label>
+      <label for="">Real Distance:</label>
       <input
         type="number"
+        min="0"
+        max="400"
         @blur="handleDimensionOfDemoText"
         @keyup.enter="handleDimensionOfDemoText"
-        class="bg-slate-200 w-[200px]"
+        class="bg-slate-200 w-[100px]"
       />
+      <button
+        @click="changeUnitToIn"
+        :style="{ backgroundColor: selectUnit === 'inch' ? '#eac7b9' : '' }"
+        class="px-2 ml-1 rounded-xl"
+      >
+        in
+      </button>
+      <button
+        @click="changeUnitToCm"
+        :style="{ backgroundColor: selectUnit === 'cm' ? '#eac7b9' : '' }"
+        class="px-2 ml-1 rounded-xl"
+      >
+        cm
+      </button>
     </div>
     <div></div>
   </div>
@@ -18,10 +34,19 @@ export default {
   data() {
     return {
       realDistanceFromImg: 0,
+      selectUnit: "inch",
       // neonTextSize: 0,
     };
   },
   methods: {
+    changeUnitToIn() {
+      this.selectUnit = "inch";
+      this.$store.commit("SetCurrentUnit", this.selectUnit);
+    },
+    changeUnitToCm() {
+      this.selectUnit = "cm";
+      this.$store.commit("SetCurrentUnit", this.selectUnit);
+    },
     handleDimensionOfDemoText(e) {
       this.realDistanceFromImg = e.target.value; // cm
       // console.log("Real Distance:", realDistanceFromImg, "cm");
