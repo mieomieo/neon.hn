@@ -14,6 +14,7 @@ export const store = createStore({
       currentWidthDemoText: 200, //px
       realDimensionInput: 0, // cm or inch
       realDimensionDemoText: 0,
+      currentHeightOfDemoText: 0, //px
       currentDimensionOfDemoText: {
         //cm or inch
         width: 0,
@@ -24,6 +25,9 @@ export const store = createStore({
   },
   actions: {},
   mutations: {
+    setHeightOfDemoText(state, height) {
+      state.currentHeightOfDemoText = height;
+    },
     setCurrentTextAlign(state, currentTextAlign) {
       state.currentTextAlign = currentTextAlign;
     },
@@ -58,8 +62,6 @@ export const store = createStore({
       // console.log(state.currentWidthDemoText);
     },
     setDimensionOfDemoText(state, dimensionOfDemoText) {
-      // console.log("in store");
-      // console.log("dimensionOfDemoText.width", dimensionOfDemoText.width);
       state.currentDimensionOfDemoText.width = dimensionOfDemoText.width;
       state.currentDimensionOfDemoText.height = dimensionOfDemoText.height;
     },

@@ -49,10 +49,10 @@
           ref="heightRulerOfDemoText"
           class="dimension dimension-height absolute flex justify-center -translate-x-5"
           :style="{
-            height: this.hasLineBreak
-              ? calcSizeOfTextImage.height + 'px'
-              : calcSizeOfTextImage.heightOneLine + 'px',
-            // left: calcSizeOfTextImage.width + 'px',
+            // height: this.hasLineBreak
+            //   ? calcSizeOfTextImage.height + 'px'
+            //   : calcSizeOfTextImage.heightOneLine + 'px',
+            height: calcSizeOfTextImage.height + 'px',
           }"
         >
           <p
@@ -280,9 +280,7 @@ export default {
       const lines = this.demoText.split("<br>");
       let maxWidth = 0;
       let totalHeight = 0;
-      let heightOneLine = 0;
       let longestLine = "";
-      // console.log("lineHeigth =", this.getLineHeight(this.$refs.demoText));
       lines.forEach((line) => {
         const metric = context.measureText(line.trim());
         const width =
@@ -294,14 +292,16 @@ export default {
           longestLine = line;
         }
         maxWidth = Math.max(maxWidth, width);
-        // totalHeight += lineHeight;
-        totalHeight += lineHeight;
-        heightOneLine = height;
+        if (lines.length > 1) {
+          totalHeight += lineHeight;
+        } else {
+          totalHeight = height;
+        }
       });
+      this.$store.commit("setHeightOfDemoText", totalHeight);
       return {
         width: maxWidth,
         height: totalHeight,
-        heightOneLine: heightOneLine,
         longestLine: longestLine,
       };
     },
@@ -330,10 +330,6 @@ export default {
           if (width <= maxWidth) {
             console.log("max-font-zize:", maxFontSize);
             const fontSize = maxFontSize;
-            // if (!this.isFirstTime) {
-            //   this.isFirstTime = false; // check lan dau
-            //   this.$store.commit("setDemoTextFontSize", fontSize);
-            // }
             this.$store.commit("setDemoTextFontSize", fontSize);
             // return fontSize;
             break;

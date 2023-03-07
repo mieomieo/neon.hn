@@ -29,7 +29,7 @@
   </div>
 </template>
 
-<script>
+<script scoped>
 export default {
   data() {
     return {
@@ -37,6 +37,11 @@ export default {
       selectUnit: "inch",
       // neonTextSize: 0,
     };
+  },
+  computed: {
+    currentHeightOfDemoText() {
+      return this.$store.state.currentHeightOfDemoText;
+    },
   },
   methods: {
     changeUnitToIn() {
@@ -58,8 +63,10 @@ export default {
           (this.realDistanceFromImg * widthOfDemoText) / defaultBgWidth
         ); // cm
       // const heightDimensionOfDemoText=  widthDimensionOfDemoText*calc.height /widthOfDemoText;
-      const heightDimensionOfDemoText =
-        (widthDimensionOfDemoText * 50) / widthOfDemoText; //cm
+      const heightDimensionOfDemoText = Math.round(
+        (widthDimensionOfDemoText * this.currentHeightOfDemoText) /
+          widthOfDemoText
+      ); //cm
       const dimensionsOfDemoText = {
         width: widthDimensionOfDemoText,
         height: heightDimensionOfDemoText,

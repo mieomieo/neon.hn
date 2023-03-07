@@ -114,7 +114,7 @@ export const fonts = [
   {
     id: 1,
     label: "Alexa",
-    lineHeight: "1.1",
+    lineHeight: "1",
     preview: "./assets/fonts/preview/alexa.svg",
     src: "./assets/fonts/fonts/Alexa.ttf",
   },
