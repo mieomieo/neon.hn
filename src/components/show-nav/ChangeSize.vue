@@ -44,7 +44,7 @@ export default {
     handleRange(e) {
       console.log("handleRange");
       const currentWidthDemoText = e.target.value;
-      this.value = Math.round(e.target.value / 6);
+      this.value = Math.round(e.target.value / 6); //cusstom for input range
       this.$store.commit("setWidthDemoText", e.target.value);
       const defaultBgWidth = 780; // px
       const widthDimensionOfDemoText = //proportional : ti le thuan
@@ -53,8 +53,9 @@ export default {
             defaultBgWidth
         ); // cm
 
-      const heightDimensionOfDemoText =
-        (widthDimensionOfDemoText * 50) / currentWidthDemoText; //cm
+      const heightDimensionOfDemoText = Math.round(
+        (widthDimensionOfDemoText * 50) / currentWidthDemoText
+      ); //cm
       const dimensionsOfDemoText = {
         width: widthDimensionOfDemoText,
         height: heightDimensionOfDemoText,
@@ -89,6 +90,6 @@ export default {
   border-radius: 50%;
   -webkit-appearance: none;
   cursor: ew-resize;
-  background: #fffbfb;
+  background: #82cfd0;
 }
 </style>

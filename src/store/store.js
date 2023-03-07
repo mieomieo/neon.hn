@@ -11,10 +11,11 @@ export const store = createStore({
       // "<span>Your</span><br><span>Text</span><br><span>ABC</span><br> <span>Thhjhgj</span>",
       currentColorId: 1,
       currentDemoTextFontSize: 50,
-      currentWidthDemoText: 200,
+      currentWidthDemoText: 200, //px
       realDimensionInput: 0, // cm or inch
       realDimensionDemoText: 0,
       currentDimensionOfDemoText: {
+        //cm or inch
         width: 0,
         height: 0,
       },

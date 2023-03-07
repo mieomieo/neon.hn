@@ -15,12 +15,12 @@
       <!-- Draggable // DemoText -->
       <div
         ref="draggable"
-        class="neon-text dragText top-[30%] z-10 relative inline-block"
+        class="neon-text dragText top-[30%] relative inline-block"
         :class="{
           'light-on': lightOn,
         }"
         :style="{
-          // lineHeight: calcSizeOfTextImage.height + 'px',
+          lineHeight: '0',
         }"
         @mousedown="startDrag"
         @touchstart.prevent="startDrag"
@@ -31,61 +31,74 @@
             width: this.isActiveInputRange
               ? currentWidthDemoText + 'px'
               : 'auto',
-            height: 'auto',
-            lineHeight: 'auto',
+            // height: 'min-content',
+            lineHeight: currentLineHeightOfDemoText,
+            // this.hasLineBreak === 'false' ? currentLineHeightOfDemoText : '1',
             display: this.isActiveInputRange ? 'flex' : 'inline-block',
             textAlign: this.$store.state.currentTextAlign,
           }"
-          class="ml-5 mb-5 demoText whitespace-nowrap align-top"
+          class="demoText whitespace-nowrap relative"
           v-html="demoText"
         ></div>
+        <!-- align-top  -->
         <!-- Ruler to illustrate for DemoText -->
-        <div v-if="isShowRulerOfDemoText" class="mt-10">
-          <!--Height  -->
-          <div
-            ref="heightRulerOfDemoText"
-            class="dimension dimension-height absolute left-0"
-            :style="{
-              height: this.hasLineBreak
-                ? calcSizeOfTextImage.height + 'px'
-                : calcSizeOfTextImage.heightOneLine + 'px',
-            }"
+        <!-- <div v-if="isShowRulerOfDemoText" class=""> -->
+        <!--Height  -->
+        <div
+          v-if="isShowRulerOfDemoText"
+          ref="heightRulerOfDemoText"
+          class="dimension dimension-height absolute flex justify-center -translate-x-5"
+          :style="{
+            height: this.hasLineBreak
+              ? calcSizeOfTextImage.height + 'px'
+              : calcSizeOfTextImage.heightOneLine + 'px',
+            // left: calcSizeOfTextImage.width + 'px',
+          }"
+        >
+          <p
+            style="top: 50%; transform: translateY(-50%) translateX(-3rem)"
+            class="dimension-content absolute left-0"
           >
-            <p
-              class="text-center dimension-content absolute text-white -rotate-90"
-            ></p>
-            <div class="relative h-full flex justify-center items-center">
-              <div class="line-1 absolute top-0 h-[1px] w-[8px] bg-white"></div>
-              <div
-                class="line-2 absolute bottom-0 h-[1px] w-[8px] bg-white"
-              ></div>
-              <div class="distance absolute h-full w-[1px] bg-white"></div>
-            </div>
-          </div>
-          <!-- Width -->
-          <div
-            ref="widthRulerOfDemoText"
-            class="dimension dimension-width absolute bottom-0 translate-x-5"
-            :style="{ width: calcSizeOfTextImage.width + 'px' }"
-          >
-            <div class="flex items-center relative">
-              <div
-                class="line-1 absolute left-0 h-[8px] w-[1px] bg-white"
-              ></div>
-              <div
-                class="line-2 absolute right-0 h-[8px] w-[1px] bg-white"
-              ></div>
-              <div class="distance absolute w-full h-[1px] bg-white"></div>
-            </div>
-            <p class="dimension-content">
-              {{
-                dimensionOfDemoText.width != 0
-                  ? dimensionOfDemoText.width + " " + currentUnit
-                  : ""
-              }}
-            </p>
+            {{
+              dimensionOfDemoText.height != 0
+                ? dimensionOfDemoText.height +
+                  (currentUnit === "inch" ? '"' : "cm")
+                : ""
+            }}
+          </p>
+          <div class="relative h-full flex justify-center items-center">
+            <div class="line-1 absolute top-0 h-[1px] w-[8px] bg-white"></div>
+            <div
+              class="line-2 absolute bottom-0 h-[1px] w-[8px] bg-white"
+            ></div>
+            <div class="distance absolute h-full w-[1px] bg-white"></div>
           </div>
         </div>
+        <!-- Width -->
+        <div
+          v-if="isShowRulerOfDemoText"
+          ref="widthRulerOfDemoText"
+          class="dimension dimension-width absolute bottom-0 translate-y-5"
+          :style="{ width: calcSizeOfTextImage.width + 'px' }"
+        >
+          <div class="flex items-center relative text-center">
+            <div class="line-1 absolute left-0 h-[8px] w-[1px] bg-white"></div>
+            <div class="line-2 absolute right-0 h-[8px] w-[1px] bg-white"></div>
+            <div class="distance absolute w-full h-[1px] bg-white"></div>
+          </div>
+          <p
+            class="dimension-content absolute"
+            style="left: 50%; transform: translateX(-50%) translateY(1rem)"
+          >
+            {{
+              dimensionOfDemoText.width != 0
+                ? dimensionOfDemoText.width +
+                  (currentUnit === "inch" ? '"' : "cm")
+                : ""
+            }}
+          </p>
+        </div>
+        <!-- </div> -->
         <!-- End Ruler -->
       </div>
       <!-- Ruler for illustration of Background Image -->
@@ -156,9 +169,13 @@
 </template>
 <script>
 import CarouselCoverflow from "./CarouselCoverflow.vue";
-import { colors as defaultColors } from "../../constants";
+import {
+  colors as defaultColors,
+  fonts as defaultFonts,
+} from "../../constants";
 import ButtonLight from "./ButtonLight.vue";
 import ChangeSize from "./ChangeSize.vue";
+
 export default {
   components: {
     CarouselCoverflow,
@@ -207,6 +224,8 @@ export default {
       }
       if (this.$store.state.textInput.includes("<br>")) {
         this.hasLineBreak = true;
+      } else {
+        this.hasLineBreak = false;
       }
       return this.$store.state.textInput;
     },
@@ -228,6 +247,16 @@ export default {
       return defaultColors.find((x) => x.id === colorId).colorOff.textShadow;
       // return this.$store.state.currentColorOff.textShadow;
     },
+
+    currentLineHeightOfDemoText() {
+      console.log("Run in currentLineHeightOfDemoText");
+      const currentFont = this.$store.state.currentDemoFont;
+      const result = defaultFonts.find(
+        (x) => x.label == currentFont
+      ).lineHeight;
+      console.log(result);
+      return result;
+    },
     currentDemoFont() {
       return this.$store.state.currentDemoFont;
     },
@@ -243,7 +272,10 @@ export default {
       const context = canvas.getContext("2d");
       context.font = `${this.currentDemoTextFontSize}px ${this.currentDemoFont}`;
       // get line height
-      const lineHeight = parseInt(context.font); // adjust 1.2 to fit your design
+      const lineHeight =
+        parseInt(context.font) * this.currentLineHeightOfDemoText; // adjust 1.2 to fit your design
+      // const lineHeight = parseInt(this.currentLineHeightOfDemoText); // adjust 1.2 to fit your design
+      console.log(lineHeight);
       // detect break line
       const lines = this.demoText.split("<br>");
       let maxWidth = 0;
@@ -280,6 +312,37 @@ export default {
       );
       return this.$store.state.currentWidthDemoText;
     },
+    getFontSizeByWidth() {
+      return (maxWidth, font) => {
+        var maxFontSize = 250;
+        var increment = 1;
+        let text = this.demoText;
+        if (this.hasLineBreak) {
+          text = this.calcSizeOfTextImage.longestLine; // calc for change width situation
+        }
+        var canvas = document.createElement("canvas");
+        var context = canvas.getContext("2d");
+        context.font = `${maxFontSize}px ${font}`;
+        while (maxFontSize > 0) {
+          context.font = `${maxFontSize}px ${font}`;
+          var width = context.measureText(text).width;
+          // console.log(maxFontSize);
+          if (width <= maxWidth) {
+            console.log("max-font-zize:", maxFontSize);
+            const fontSize = maxFontSize;
+            // if (!this.isFirstTime) {
+            //   this.isFirstTime = false; // check lan dau
+            //   this.$store.commit("setDemoTextFontSize", fontSize);
+            // }
+            this.$store.commit("setDemoTextFontSize", fontSize);
+            // return fontSize;
+            break;
+          }
+          maxFontSize -= increment;
+        }
+        return 0;
+      };
+    },
   },
   methods: {
     handleLightToggle() {
@@ -287,35 +350,35 @@ export default {
       // this.$emit("toggleSwitch", this.lightActive);
       console.log(this.$store.state.lightOn);
     },
-    getFontSizeByWidth(maxWidth, font) {
-      var maxFontSize = 250;
-      var increment = 1;
-      let text = this.demoText;
-      if (this.hasLineBreak) {
-        text = this.calcSizeOfTextImage.longestLine;
-      }
-      var canvas = document.createElement("canvas");
-      var context = canvas.getContext("2d");
-      context.font = `${maxFontSize}px ${font}`;
-      while (maxFontSize > 0) {
-        context.font = `${maxFontSize}px ${font}`;
-        var width = context.measureText(text).width;
-        // console.log(maxFontSize);
-        if (width <= maxWidth) {
-          console.log("max-font-zize:", maxFontSize);
-          const fontSize = maxFontSize;
-          if (!this.isFirstTime) {
-            this.isFirstTime = false;
-            this.$store.commit("setDemoTextFontSize", fontSize);
-          }
-          this.$store.commit("setDemoTextFontSize", fontSize);
-          // return fontSize;
-          break;
-        }
-        maxFontSize -= increment;
-      }
-      return 0;
-    },
+    // getFontSizeByWidth(maxWidth, font) {
+    //   var maxFontSize = 250;
+    //   var increment = 1;
+    //   let text = this.demoText;
+    //   if (this.hasLineBreak) {
+    //     text = this.calcSizeOfTextImage.longestLine; // calc for change width situation
+    //   }
+    //   var canvas = document.createElement("canvas");
+    //   var context = canvas.getContext("2d");
+    //   context.font = `${maxFontSize}px ${font}`;
+    //   while (maxFontSize > 0) {
+    //     context.font = `${maxFontSize}px ${font}`;
+    //     var width = context.measureText(text).width;
+    //     // console.log(maxFontSize);
+    //     if (width <= maxWidth) {
+    //       console.log("max-font-zize:", maxFontSize);
+    //       const fontSize = maxFontSize;
+    //       if (!this.isFirstTime) {
+    //         this.isFirstTime = false;
+    //         this.$store.commit("setDemoTextFontSize", fontSize);
+    //       }
+    //       this.$store.commit("setDemoTextFontSize", fontSize);
+    //       // return fontSize;
+    //       break;
+    //     }
+    //     maxFontSize -= increment;
+    //   }
+    //   return 0;
+    // },
     pickFile() {
       this.$refs.fileInput.click();
       this.currentBackground = null;
@@ -419,6 +482,10 @@ export default {
         // Update the position of the draggable element
         this.$refs.draggable.style.left = `${this.currentX}px`;
         this.$refs.draggable.style.top = `${this.currentY}px`;
+        // this.$refs.widthRulerOfDemoText.style.left = `${this.currentX}px`;
+        // this.$refs.widthRulerOfDemoText.style.top = `${this.currentY}px`;
+        // this.$refs.heightRulerOfDemoText.style.left = `${this.currentX}px`;
+        // this.$refs.heightRulerOfDemoText.style.top = `${this.currentY}px`;
       }
     },
     stopDrag(event) {
@@ -452,6 +519,8 @@ export default {
 .demoText {
   /* width: v-bind(currentWidthDemoText + "px");*/
   line-height: 1;
+  animation: pulsate 1.5s infinite alternate;
+  /* font-size-adjust: 0.5; */
 
   /* transform: scale(2); */
 }
@@ -459,13 +528,12 @@ export default {
   z-index: 100;
   font-size: v-bind(currentDemoTextFontSize + "px"); /*42px;*/
   font-family: v-bind(currentDemoFont), sans-serif;
-  box-sizing: border-box;
-  animation: pulsate 1.5s infinite alternate;
+  /* box-sizing: border-box; */
   /* border-radius: 2rem; */
   color: v-bind(currentColorOff);
   text-shadow: v-bind(currentTextshadowOff);
   transition: text-shadow 0.6s ease;
-  font-size-adjust: 0.5;
+
   /* height: auto; */
 }
 .dimension-content {

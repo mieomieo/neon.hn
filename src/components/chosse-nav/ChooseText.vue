@@ -22,11 +22,8 @@ Press Enter for a new line "
       rows="10"
     ></textarea>
   </div>
-  <div class="text-align-btn flex justify-between">
-    <div
-      @click="handleTextAlignLeft"
-      class="cursor-pointer w-1/6 text-gray-300"
-    >
+  <div class="text-align-btn flex justify-around">
+    <div @click="handleTextAlignLeft" class="cursor-pointer w-1/12">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
         <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
         <path
@@ -38,7 +35,7 @@ Press Enter for a new line "
         />
       </svg>
     </div>
-    <div @click="handleTextAlignCenter" class="cursor-pointer w-1/6">
+    <div @click="handleTextAlignCenter" class="cursor-pointer w-1/12">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
         <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
         <path
@@ -50,7 +47,7 @@ Press Enter for a new line "
         />
       </svg>
     </div>
-    <div @click="handleTextAlignRight" class="cursor-pointer w-1/6">
+    <div @click="handleTextAlignRight" class="cursor-pointer w-1/12">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
         <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
         <path
