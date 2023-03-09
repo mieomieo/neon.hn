@@ -5,7 +5,7 @@
       ref="container"
       class="overflow-hidden box-border relative h-full w-full border-x-8 border-stone-800 flex justify-center"
       :style="{
-        transition: 'background-image 0.5s ease-in-out',
+        transition: 'background-image 0.8s ease-in-out',
         background: previewImage
           ? `url(${previewImage})  no-repeat center center`
           : currentBackground,
@@ -332,6 +332,20 @@ export default {
       }, 500);
     },
   },
+  // watch: {
+  //   currentDemoTextFontSize() {
+  //     this.isFontSizeLoaded = true;
+  //     if (this.isFontLoaded) {
+  //       this.calcSizeOfTextImage();
+  //     }
+  //   },
+  //   currentDemoFont() {
+  //     this.isFontLoaded = true;
+  //     if (this.isFontSizeLoaded) {
+  //       this.calcSizeOfTextImage();
+  //     }
+  //   },
+  // },
 
   methods: {
     handleLightToggle() {
