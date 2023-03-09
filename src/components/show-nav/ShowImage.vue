@@ -40,7 +40,7 @@
             display: this.isActiveInputRange ? 'flex' : 'inline-block',
             textAlign: this.$store.state.currentTextAlign,
           }"
-          class="demoText whitespace-nowrap relative"
+          class="demoText whitespace-nowrap relative bg-slate-500"
           v-html="demoText"
         ></div>
         <!-- align-top  -->
@@ -329,7 +329,7 @@ export default {
       setTimeout(() => {
         this.getFontSizeByWidth(this.currentWidthDemoText, value);
         this.loading = false;
-      }, 300);
+      }, 500);
     },
   },
 
