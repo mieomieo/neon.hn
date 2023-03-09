@@ -5,7 +5,7 @@
       ref="container"
       class="overflow-hidden box-border relative h-full w-full border-x-8 border-stone-800 flex justify-center"
       :style="{
-        transition: 'background-image 0.8s ease-in-out',
+        transition: 'background-image 1s ease-in-out',
         background: previewImage
           ? `url(${previewImage})  no-repeat center center`
           : currentBackground,
@@ -323,31 +323,42 @@ export default {
       return this.$store.state.currentWidthDemoText;
     },
   },
+  // watch: {
+  //   async currentDemoFont(value, oldValue) {
+  //     this.loading = true;
+  //     setTimeout(() => {
+  //       this.getFontSizeByWidth(this.currentWidthDemoText, value);
+  //       this.loading = false;
+  //     }, 500);
+  //   },
+  // },
   watch: {
     async currentDemoFont(value, oldValue) {
       this.loading = true;
-      setTimeout(() => {
-        this.getFontSizeByWidth(this.currentWidthDemoText, value);
-        this.loading = false;
-      }, 500);
+      await this.loadFont(this.currentDemoFont);
+      this.getFontSizeByWidth(this.currentWidthDemoText, value);
+      this.loading = false;
+      // setTimeout(() => {
+      // }, 500);
     },
   },
-  // watch: {
-  //   currentDemoTextFontSize() {
-  //     this.isFontSizeLoaded = true;
-  //     if (this.isFontLoaded) {
-  //       this.calcSizeOfTextImage();
-  //     }
-  //   },
-  //   currentDemoFont() {
-  //     this.isFontLoaded = true;
-  //     if (this.isFontSizeLoaded) {
-  //       this.calcSizeOfTextImage();
-  //     }
-  //   },
-  // },
 
   methods: {
+    loadFont(fontName) {
+      return new Promise((resolve, reject) => {
+        const font = new FontFace(
+          fontName,
+          `url(./assets/fonts/fonts/${fontName}.ttf)`
+        );
+        font
+          .load()
+          .then(() => {
+            document.fonts.add(font);
+            resolve();
+          })
+          .catch((error) => reject(error));
+      });
+    },
     handleLightToggle() {
       this.$store.state.lightOn = !this.$store.state.lightOn;
       console.log(this.$store.state.lightOn);
