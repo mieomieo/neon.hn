@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col">
     <div>CHOOSE FONT</div>
-    <div class="w-[200px] h-[300px] overflow-auto">
+    <div class="w-[300px] h-[300px] overflow-auto">
       <ul>
         <li
-          class="p-2 mb-3 border-solid border-2 flex justify-center"
+          class="p-2 mb-3 border-solid border-2 flex justify-center shadow-lg"
           v-for="item in fonts"
           :key="item.label"
           @click="SelectFont(item.label)"

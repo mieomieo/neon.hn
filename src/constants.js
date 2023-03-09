@@ -2,6 +2,7 @@ export const colors = [
   {
     label: "Ice Blue",
     id: 1,
+    src: "./assets/images/led-neon/iceblue.jpg",
     colorOff: {
       color: "rgb(244, 244, 244)",
       textShadow:
@@ -13,6 +14,7 @@ export const colors = [
   {
     label: "White",
     id: 2,
+    src: "./assets/images/led-neon/white.jpg",
     colorOff: {
       color: "rgb(244, 244, 244)",
       textShadow:
@@ -24,6 +26,7 @@ export const colors = [
   {
     label: "Warm White",
     id: 3,
+    src: "./assets/images/led-neon/warmwhite.jpg",
     colorOff: {
       color: "rgb(244, 244, 244)",
       textShadow:
@@ -35,6 +38,7 @@ export const colors = [
   {
     label: "Golden Yellow",
     id: 4,
+    src: "./assets/images/led-neon/goldenyellow.jpg",
     colorOff: {
       color: "rgb(255, 214, 46)",
       textShadow:
@@ -46,6 +50,7 @@ export const colors = [
   {
     label: "Red",
     id: 5,
+    src: "./assets/images/led-neon/red.jpg",
     colorOff: {
       color: "rgb(255, 42, 77)",
       textShadow:
@@ -57,6 +62,7 @@ export const colors = [
   {
     label: "Pink",
     id: 6,
+    src: "./assets/images/led-neon/pink.jpg",
     colorOff: {
       color: "rgb(234, 164, 255",
       textShadow:
@@ -68,6 +74,7 @@ export const colors = [
   {
     label: "Green",
     id: 7,
+    src: "./assets/images/led-neon/green.jpg",
     colorOff: {
       color: "rgb(11, 215, 72",
       textShadow:
@@ -79,6 +86,7 @@ export const colors = [
   {
     label: "Orange",
     id: 8,
+    src: "./assets/images/led-neon/orange.jpg",
     colorOff: {
       color: "rgb(255 143 4)",
       textShadow:
@@ -90,6 +98,7 @@ export const colors = [
   {
     label: "Deep Blue",
     id: 9,
+    src: "./assets/images/led-neon/deepblue.jpg",
     colorOff: {
       color: "rgb(2, 116, 252)",
       textShadow:
@@ -101,6 +110,7 @@ export const colors = [
   {
     label: "Purple",
     id: 10,
+    src: "./assets/images/led-neon/purple.jpg",
     colorOff: {
       color: "rgb(244, 244, 244)",
       textShadow:

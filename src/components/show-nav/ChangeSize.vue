@@ -19,6 +19,8 @@
   </div>
 </template>
 <script scoped>
+import throttle from "lodash.throttle";
+
 export default {
   data() {
     return {
@@ -34,30 +36,6 @@ export default {
     currentHeightOfDemoText() {
       return this.$store.state.currentHeightOfDemoText;
     },
-    handleRange() {
-      return (e) => {
-        const currentWidthDemoText = e.target.value;
-        this.value = Math.round(e.target.value / 6); //cusstom for input range
-        this.$store.commit("setWidthDemoText", e.target.value);
-        const defaultBgWidth = 780; // px
-        const widthDimensionOfDemoText = //proportional : ti le thuan
-          Math.round(
-            (this.$store.state.realDimensionInput * currentWidthDemoText) /
-              defaultBgWidth
-          ); // cm
-
-        const heightDimensionOfDemoText = Math.round(
-          (widthDimensionOfDemoText * this.currentHeightOfDemoText) /
-            currentWidthDemoText
-        ); //cm
-        const dimensionsOfDemoText = {
-          width: widthDimensionOfDemoText,
-          height: heightDimensionOfDemoText,
-        };
-
-        this.$store.commit("setDimensionOfDemoText", dimensionsOfDemoText);
-      };
-    },
   },
   methods: {
     handleActiveRange() {
@@ -68,29 +46,29 @@ export default {
       this.isActiveInputRange = false;
       this.$store.commit("setCurrentInputRange", this.isActiveInputRange);
     },
-    // handleRange(e) {
-    //   console.log("handleRange");
-    //   const currentWidthDemoText = e.target.value;
-    //   this.value = Math.round(e.target.value / 6); //cusstom for input range
-    //   this.$store.commit("setWidthDemoText", e.target.value);
-    //   const defaultBgWidth = 780; // px
-    //   const widthDimensionOfDemoText = //proportional : ti le thuan
-    //     Math.round(
-    //       (this.$store.state.realDimensionInput * currentWidthDemoText) /
-    //         defaultBgWidth
-    //     ); // cm
+    handleRange(e) {
+      console.log("handleRange");
+      const currentWidthDemoText = e.target.value;
+      this.value = Math.round(e.target.value / 6); //cusstom for input range
+      this.$store.commit("setWidthDemoText", e.target.value);
+      const defaultBgWidth = 780; // px
+      const widthDimensionOfDemoText = //proportional : ti le thuan
+        Math.round(
+          (this.$store.state.realDimensionInput * currentWidthDemoText) /
+            defaultBgWidth
+        ); // cm
 
-    //   const heightDimensionOfDemoText = Math.round(
-    //     (widthDimensionOfDemoText * this.currentHeightOfDemoText) /
-    //       currentWidthDemoText
-    //   ); //cm
-    //   const dimensionsOfDemoText = {
-    //     width: widthDimensionOfDemoText,
-    //     height: heightDimensionOfDemoText,
-    //   };
+      const heightDimensionOfDemoText = Math.round(
+        (widthDimensionOfDemoText * this.currentHeightOfDemoText) /
+          currentWidthDemoText
+      ); //cm
+      const dimensionsOfDemoText = {
+        width: widthDimensionOfDemoText,
+        height: heightDimensionOfDemoText,
+      };
 
-    //   this.$store.commit("setDimensionOfDemoText", dimensionsOfDemoText);
-    // },
+      this.$store.commit("setDimensionOfDemoText", dimensionsOfDemoText);
+    },
   },
 };
 </script>

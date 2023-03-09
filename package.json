@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "fontmetrics": "^1.0.0",
+    "lodash.throttle": "^4.1.1",
     "measure-text": "^0.0.4",
     "netlify": "^13.1.2",
     "swiper": "^9.0.5",

@@ -13,6 +13,8 @@
       }"
     >
       <!-- Draggable // DemoText -->
+      <Loading v-show="loading" class="mx-auto mt-[40%]" />
+
       <div
         ref="draggable"
         class="neon-text dragText top-[30%] relative inline-block"
@@ -26,6 +28,7 @@
         @touchstart.prevent="startDrag"
       >
         <div
+          v-show="!loading"
           ref="demoTextHeight"
           :style="{
             width: this.isActiveInputRange
@@ -45,6 +48,7 @@
         <!-- <div v-if="isShowRulerOfDemoText" class=""> -->
         <!--Height  -->
         <div
+          v-show="!loading"
           v-if="isShowRulerOfDemoText"
           ref="heightRulerOfDemoText"
           class="dimension dimension-height absolute flex justify-center -translate-x-5"
@@ -76,6 +80,7 @@
         </div>
         <!-- Width -->
         <div
+          v-show="!loading"
           v-if="isShowRulerOfDemoText"
           ref="widthRulerOfDemoText"
           class="dimension dimension-width absolute bottom-0 translate-y-5"
@@ -169,6 +174,8 @@
 </template>
 <script>
 import CarouselCoverflow from "./CarouselCoverflow.vue";
+import Loading from "./Loading.vue";
+
 import {
   colors as defaultColors,
   fonts as defaultFonts,
@@ -181,6 +188,7 @@ export default {
     CarouselCoverflow,
     ButtonLight,
     ChangeSize,
+    Loading,
   },
   data() {
     return {
@@ -197,6 +205,7 @@ export default {
       isShowRulerOfDemoText: false,
       backgroundSize: "", // check background size khi upload image
       // isActiveInputRange: false, // kiem tra xem co active width cua demoText khong?
+      loading: false,
     };
   },
   computed: {
@@ -221,11 +230,12 @@ export default {
     demoText() {
       if (this.$store.state.textInput != "Your Text") {
         this.isShowRulerOfDemoText = true;
-      }
-      if (this.$store.state.textInput.includes("<br>")) {
-        this.hasLineBreak = true;
-      } else {
-        this.hasLineBreak = false;
+        if (this.$store.state.textInput === "") {
+          this.isShowRulerOfDemoText = false;
+        }
+        if (this.$store.state.textInput.includes("<br>")) {
+          this.hasLineBreak = true;
+        }
       }
       return this.$store.state.textInput;
     },
@@ -291,7 +301,7 @@ export default {
           maxWidth = width;
           longestLine = line;
         }
-        maxWidth = Math.max(maxWidth, width);
+        // maxWidth = Math.max(maxWidth, width);
         if (lines.length > 1) {
           totalHeight += lineHeight;
         } else {
@@ -312,69 +322,47 @@ export default {
       );
       return this.$store.state.currentWidthDemoText;
     },
-    getFontSizeByWidth() {
-      return (maxWidth, font) => {
-        var maxFontSize = 250;
-        var increment = 1;
-        let text = this.demoText;
-        if (this.hasLineBreak) {
-          text = this.calcSizeOfTextImage.longestLine; // calc for change width situation
-        }
-        var canvas = document.createElement("canvas");
-        var context = canvas.getContext("2d");
-        context.font = `${maxFontSize}px ${font}`;
-        while (maxFontSize > 0) {
-          context.font = `${maxFontSize}px ${font}`;
-          var width = context.measureText(text).width;
-          // console.log(maxFontSize);
-          if (width <= maxWidth) {
-            console.log("max-font-zize:", maxFontSize);
-            const fontSize = maxFontSize;
-            this.$store.commit("setDemoTextFontSize", fontSize);
-            // return fontSize;
-            break;
-          }
-          maxFontSize -= increment;
-        }
-        return 0;
-      };
+  },
+  watch: {
+    async currentDemoFont(value, oldValue) {
+      this.loading = true;
+      setTimeout(() => {
+        this.getFontSizeByWidth(this.currentWidthDemoText, value);
+        this.loading = false;
+      }, 300);
     },
   },
+
   methods: {
     handleLightToggle() {
       this.$store.state.lightOn = !this.$store.state.lightOn;
-      // this.$emit("toggleSwitch", this.lightActive);
       console.log(this.$store.state.lightOn);
     },
-    // getFontSizeByWidth(maxWidth, font) {
-    //   var maxFontSize = 250;
-    //   var increment = 1;
-    //   let text = this.demoText;
-    //   if (this.hasLineBreak) {
-    //     text = this.calcSizeOfTextImage.longestLine; // calc for change width situation
-    //   }
-    //   var canvas = document.createElement("canvas");
-    //   var context = canvas.getContext("2d");
-    //   context.font = `${maxFontSize}px ${font}`;
-    //   while (maxFontSize > 0) {
-    //     context.font = `${maxFontSize}px ${font}`;
-    //     var width = context.measureText(text).width;
-    //     // console.log(maxFontSize);
-    //     if (width <= maxWidth) {
-    //       console.log("max-font-zize:", maxFontSize);
-    //       const fontSize = maxFontSize;
-    //       if (!this.isFirstTime) {
-    //         this.isFirstTime = false;
-    //         this.$store.commit("setDemoTextFontSize", fontSize);
-    //       }
-    //       this.$store.commit("setDemoTextFontSize", fontSize);
-    //       // return fontSize;
-    //       break;
-    //     }
-    //     maxFontSize -= increment;
-    //   }
-    //   return 0;
-    // },
+    getFontSizeByWidth(maxWidth, font) {
+      var maxFontSize = 250;
+      var increment = 1;
+      let text = this.demoText;
+      if (this.hasLineBreak) {
+        text = this.calcSizeOfTextImage.longestLine; // calc for change width situation
+      }
+      var canvas = document.createElement("canvas");
+      var context = canvas.getContext("2d");
+      context.font = `${maxFontSize}px ${font}`;
+      while (maxFontSize > 0) {
+        context.font = `${maxFontSize}px ${font}`;
+        var width = context.measureText(text).width;
+        // console.log(maxFontSize);
+        if (width <= maxWidth) {
+          console.log("max-font-zize:", maxFontSize);
+          const fontSize = maxFontSize;
+          this.$store.commit("setDemoTextFontSize", fontSize);
+          // return fontSize;
+          break;
+        }
+        maxFontSize -= increment;
+      }
+      return 0;
+    },
     pickFile() {
       this.$refs.fileInput.click();
       this.currentBackground = null;
@@ -418,8 +406,6 @@ export default {
         this.currentX = draggable.x - this.calcSizeOfTextImage.width * 0.8; //Tinh chinh, tạo ra currentXY và initialXY trong data
         this.currentY = draggable.y - this.calcSizeOfTextImage.height * 1.05;
         this.isExecuted = true;
-        // console.log("CurrentX:", this.currentX);
-        // console.log("CurrentY:", this.currentY);
       }
       this.dragging = true;
       // Calculate the initial position of the draggable element

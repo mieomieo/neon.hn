@@ -8,7 +8,6 @@ export const store = createStore({
       currentDemoFont: "Alexa",
       textInput: "Your Text",
       currentTextAlign: "left",
-      // "<span>Your</span><br><span>Text</span><br><span>ABC</span><br> <span>Thhjhgj</span>",
       currentColorId: 1,
       currentDemoTextFontSize: 50,
       currentWidthDemoText: 200, //px
