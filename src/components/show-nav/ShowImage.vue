@@ -40,7 +40,7 @@
             display: this.isActiveInputRange ? 'flex' : 'inline-block',
             textAlign: this.$store.state.currentTextAlign,
           }"
-          class="demoText whitespace-nowrap relative bg-slate-500"
+          class="demoText whitespace-nowrap relative"
           v-html="demoText"
         ></div>
         <!-- align-top  -->
@@ -292,20 +292,22 @@ export default {
       let totalHeight = 0;
       let longestLine = "";
       lines.forEach((line) => {
-        const metric = context.measureText(line.trim());
-        const width =
-          metric.actualBoundingBoxRight - metric.actualBoundingBoxLeft;
-        const height =
-          metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent;
-        if (width > maxWidth) {
-          maxWidth = width;
-          longestLine = line;
-        }
-        // maxWidth = Math.max(maxWidth, width);
-        if (lines.length > 1) {
-          totalHeight += lineHeight;
-        } else {
-          totalHeight = height;
+        if (line !== "<br>") {
+          const metric = context.measureText(line.trim());
+          const width =
+            metric.actualBoundingBoxRight - metric.actualBoundingBoxLeft;
+          const height =
+            metric.actualBoundingBoxAscent + metric.actualBoundingBoxDescent;
+          if (width > maxWidth) {
+            maxWidth = width;
+            longestLine = line;
+          }
+
+          if (lines.length > 1) {
+            totalHeight += lineHeight;
+          } else {
+            totalHeight = height;
+          }
         }
       });
       this.$store.commit("setHeightOfDemoText", totalHeight);
@@ -323,23 +325,12 @@ export default {
       return this.$store.state.currentWidthDemoText;
     },
   },
-  // watch: {
-  //   async currentDemoFont(value, oldValue) {
-  //     this.loading = true;
-  //     setTimeout(() => {
-  //       this.getFontSizeByWidth(this.currentWidthDemoText, value);
-  //       this.loading = false;
-  //     }, 500);
-  //   },
-  // },
   watch: {
     async currentDemoFont(value, oldValue) {
       this.loading = true;
       await this.loadFont(this.currentDemoFont);
       this.getFontSizeByWidth(this.currentWidthDemoText, value);
       this.loading = false;
-      // setTimeout(() => {
-      // }, 500);
     },
   },
 
