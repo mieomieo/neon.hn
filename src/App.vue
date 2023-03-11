@@ -17,6 +17,7 @@
   <!-- <Test class="mt-[100px] m-auto p-10" /> -->
 
   <!-- <header-app class="mt-[300px]" /> -->
+  <testPDF />
 </template>
 <script>
 import HeaderApp from "./components/HeaderApp.vue";
@@ -25,6 +26,7 @@ import ChooseText from "./components/chosse-nav/ChooseText.vue";
 import ChooseColor from "./components/chosse-nav/ChooseColor.vue";
 import ChooseFont from "./components/chosse-nav/ChooseFont.vue";
 import ChooseSize from "./components/chosse-nav/ChooseSize.vue";
+import testPDF from "./components/testPDF.vue";
 // import ChangeSize from "./components/ChangeSize.vue";
 export default {
   components: {
@@ -34,6 +36,7 @@ export default {
     ChooseFont,
     ChooseSize,
     HeaderApp,
+    testPDF,
     // ChangeSize,
   },
   data() {

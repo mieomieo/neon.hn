@@ -61,7 +61,8 @@
             class="dimension-content absolute left-0"
           >
             {{
-              dimensionOfDemoText.height != 0
+              dimensionOfDemoText.height != 0 &&
+              !isNaN(dimensionOfDemoText.height)
                 ? dimensionOfDemoText.height +
                   (currentUnit === "inch" ? '"' : "cm")
                 : ""
