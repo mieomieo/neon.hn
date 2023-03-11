@@ -53,9 +53,6 @@
           ref="heightRulerOfDemoText"
           class="dimension dimension-height absolute flex justify-center -translate-x-5"
           :style="{
-            // height: this.hasLineBreak
-            //   ? calcSizeOfTextImage.height + 'px'
-            //   : calcSizeOfTextImage.heightOneLine + 'px',
             height: calcSizeOfTextImage.height + 'px',
           }"
         >
@@ -227,6 +224,7 @@ export default {
         height: this.$store.state.currentDimensionOfDemoText.height,
       };
     },
+    //should fix here for performance
     demoText() {
       if (this.$store.state.textInput != "Your Text") {
         this.isShowRulerOfDemoText = true;
@@ -278,14 +276,13 @@ export default {
       return this.sizeOfBackgroundImage;
     },
     calcSizeOfTextImage() {
+      // console.log("Run in calcSizeOfTextImage ");
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
       context.font = `${this.currentDemoTextFontSize}px ${this.currentDemoFont}`;
       // get line height
       const lineHeight =
         parseInt(context.font) * this.currentLineHeightOfDemoText; // adjust 1.2 to fit your design
-      // const lineHeight = parseInt(this.currentLineHeightOfDemoText); // adjust 1.2 to fit your design
-      console.log(lineHeight);
       // detect break line
       const lines = this.demoText.split("<br>");
       let maxWidth = 0;
@@ -332,6 +329,10 @@ export default {
       this.getFontSizeByWidth(this.currentWidthDemoText, value);
       this.loading = false;
     },
+    demoText(value, oldValues) {
+      this.$store.commit("setCurrentInputRange", true);
+      // console.log("run in watch demoText");
+    },
   },
 
   methods: {
@@ -369,7 +370,7 @@ export default {
         var width = context.measureText(text).width;
         // console.log(maxFontSize);
         if (width <= maxWidth) {
-          console.log("max-font-zize:", maxFontSize);
+          // console.log("max-font-zize:", maxFontSize);
           const fontSize = maxFontSize;
           this.$store.commit("setDemoTextFontSize", fontSize);
           // return fontSize;

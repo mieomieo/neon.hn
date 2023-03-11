@@ -1,6 +1,7 @@
 <template>
   <div>
     <input
+      ref="valueSize"
       type="range"
       @input="handleRange"
       min="0"
@@ -35,6 +36,18 @@ export default {
     },
     currentHeightOfDemoText() {
       return this.$store.state.currentHeightOfDemoText;
+    },
+  },
+  watch: {
+    currentHeightOfDemoText(newValue, oldValue) {
+      const heightDimensionOfDemoText = Math.round(
+        this.$store.state.currentDimensionOfDemoText.height *
+          (newValue / oldValue)
+      );
+      this.$store.commit(
+        "setNewHeightDimensionDemoText",
+        heightDimensionOfDemoText
+      );
     },
   },
   methods: {

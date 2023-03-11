@@ -64,12 +64,19 @@ export const store = createStore({
       state.currentDimensionOfDemoText.width = dimensionOfDemoText.width;
       state.currentDimensionOfDemoText.height = dimensionOfDemoText.height;
     },
+    setNewHeightDimensionDemoText(state, updateHeightDimensionDemoText) {
+      state.currentDimensionOfDemoText = {
+        ...state.currentDimensionOfDemoText,
+        height: updateHeightDimensionDemoText,
+      };
+    },
+
     setRealDimensionInput(state, realDimension) {
       state.realDimensionInput = realDimension;
     },
     setCurrentInputRange(state, current) {
       state.currentInputRange = current;
-      console.log(current);
+      // console.log(current);
     },
   },
 });
