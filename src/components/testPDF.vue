@@ -55,15 +55,15 @@ export default {
       console.log(color);
       const fill = this.rgbToHex(color);
       console.log(fill);
-      const height = this.currentDimensionOfDemoText.width + this.currentUnit;
-      const width = this.currentDimensionOfDemoText.height + this.currentUnit;
+      const width = this.currentDimensionOfDemoText.width + this.currentUnit;
+      const height = this.currentDimensionOfDemoText.height + this.currentUnit;
       opentype.load(url, function (err, font) {
         if (err) throw err;
         // Tạo đường viền từ font chữ
         const path = font.getPath(text, 0, 0, 100);
 
         // Tạo SVG element
-        var draw = SVG().size(height, width);
+        var draw = SVG().size(width, height);
 
         // Vẽ đường viền lên SVG element
         draw
@@ -82,7 +82,7 @@ export default {
         // Xuất ra file SVG
         var svgString = draw.svg();
         var blob = new Blob([svgString], { type: "image/svg+xml" });
-        saveAs(blob, "font.svg");
+        saveAs(blob, `${text}_${currentFont}_${width}x${height}.svg`);
       });
     },
     //  Tạo ra rectangle cho khung
