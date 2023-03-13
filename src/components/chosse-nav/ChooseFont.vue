@@ -9,7 +9,7 @@
           :key="item.label"
           @click="SelectFont(item.label)"
         >
-          <img class="w-20 p-1" :src="item.preview" alt="${item.label} " />
+          <img class="w-4/5 p-1" :src="item.preview" alt="${item.label} " />
           <!-- {{ item.label }} -->
         </li>
       </ul>

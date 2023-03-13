@@ -64,7 +64,7 @@
               dimensionOfDemoText.height != 0 &&
               !isNaN(dimensionOfDemoText.height)
                 ? dimensionOfDemoText.height +
-                  (currentUnit === "inch" ? '"' : "cm")
+                  (currentUnit === "in" ? '"' : "cm")
                 : ""
             }}
           </p>
@@ -96,7 +96,7 @@
             {{
               dimensionOfDemoText.width != 0
                 ? dimensionOfDemoText.width +
-                  (currentUnit === "inch" ? '"' : "cm")
+                  (currentUnit === "in" ? '"' : "cm")
                 : ""
             }}
           </p>
@@ -261,7 +261,7 @@ export default {
       console.log("Run in currentLineHeightOfDemoText");
       const currentFont = this.$store.state.currentDemoFont;
       const result = defaultFonts.find(
-        (x) => x.label == currentFont
+        (x) => x.label === currentFont
       ).lineHeight;
       console.log(result);
       return result;

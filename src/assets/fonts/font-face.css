@@ -1,164 +1,137 @@
 @font-face {
-  font-family: "Alexa";
-  src: url(/src/assets/fonts/fonts/Alexa.ttf) format("truetype");
+  font-family: "AmericanSignature";
+  src: url(./assets/fonts/fonts/AmericanSignature.ttf) format("truetype");
 }
 @font-face {
   font-family: "Breathing";
-  src: url(/src/assets/fonts/fonts/Breathing.ttf) format("truetype");
+  src: url(./assets/fonts/fonts/Breathing.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Amanda";
-  src: url(/src/assets/fonts/fonts/Amanda.ttf) format("truetype");
+  font-family: "AmeyallindaSignature";
+  src: url(./assets/fonts/fonts/AngelSignature.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Angelface";
+  src: url(./assets/fonts/fonts/Angelface.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Amsterdam";
-  src: url(/src/assets/fonts/fonts/Amsterdam.ttf) format("truetype");
+  font-family: "AngelSignature";
+  src: url(./assets/fonts/fonts/AngelSignature.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Austin";
-  src: url(/src/assets/fonts/fonts/Austin.ttf) format("truetype");
+  font-family: "AuthenticCity";
+  src: url(./assets/fonts/fonts/AuthenticCity.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Avante";
-  src: url(/src/assets/fonts/fonts/Avante.ttf) format("truetype");
+  font-family: "Cherolina";
+  src: url(./assets/fonts/fonts/Cherolina.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Barcelona";
-  src: url(/src/assets/fonts/fonts/Barcelona.ttf) format("truetype");
+  font-family: "Fabulist";
+  src: url(./assets/fonts/fonts/Fabulist.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Bayview";
-  src: url(/src/assets/fonts/fonts/Bayview.ttf) format("truetype");
+  font-family: "FancyDelight";
+  src: url(./assets/fonts/fonts/FancyDelight.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Beachfront";
-  src: url(/src/assets/fonts/fonts/Beachfront.ttf) format("truetype");
+  font-family: "FunkySignature";
+  src: url(./assets/fonts/fonts/FunkySignature.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Bellview";
-  src: url(/src/assets/fonts/fonts/Bellview.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Buttercup";
-  src: url(/src/assets/fonts/fonts/Buttercup.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Chelsea";
-  src: url(/src/assets/fonts/fonts/Chelsea.ttf) format("truetype");
-}
-@font-face {
-  font-family: "ClassicType";
-  src: url(/src/assets/fonts/fonts/ClassicType.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Freehand";
-  src: url(/src/assets/fonts/fonts/Freehand.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Freespirit";
-  src: url(/src/assets/fonts/fonts/Freespirit.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Greenworld";
-  src: url(/src/assets/fonts/fonts/Greenworld.ttf) format("truetype");
+  font-family: "GreatDayPersonalUse";
+  src: url(./assets/fonts/fonts/GreatDayPersonalUse.ttf) format("truetype");
 }
 @font-face {
   font-family: "LoveNeon";
-  src: url(/src/assets/fonts/fonts/LoveNeon.ttf) format("truetype");
+  src: url(./assets/fonts/fonts/LoveNeon.ttf) format("truetype");
 }
 @font-face {
-  font-family: "LoveNote";
-  src: url(/src/assets/fonts/fonts/LoveNote.ttf) format("truetype");
+  font-family: "MADESoulmazeOutline";
+  src: url(./assets/fonts/fonts/MADESoulmazeOutline.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Marquee";
-  src: url(/src/assets/fonts/fonts/Marquee.ttf) format("truetype");
+  font-family: "MilestoneOutline";
+  src: url(./assets/fonts/fonts/MilestoneOutline.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Mayfair";
-  src: url(/src/assets/fonts/fonts/Mayfair.ttf) format("truetype");
+  font-family: "MountainSignature";
+  src: url(./assets/fonts/fonts/MountainSignature.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Melbourne";
-  src: url(/src/assets/fonts/fonts/Melbourne.ttf) format("truetype");
+  font-family: "NeonCityScript";
+  src: url(./assets/fonts/fonts/NeonCityScript.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Monaco";
-  src: url(/src/assets/fonts/fonts/Monaco.ttf) format("truetype");
+  font-family: "NeonClubMusic";
+  src: url(./assets/fonts/fonts/NeonClubMusic.ttf) format("truetype");
 }
 @font-face {
-  font-family: "NeonGlow";
-  src: url(/src/assets/fonts/fonts/NeonGlow.ttf) format("truetype");
-}
-@font-face {
-  font-family: "NeonLite";
-  src: url(/src/assets/fonts/fonts/NeonLite.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Neonscript";
-  src: url(/src/assets/fonts/fonts/Neonscript.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Neontrace";
-  src: url(/src/assets/fonts/fonts/Neontrace.ttf) format("truetype");
-}
-@font-face {
-  font-family: "NeoTokyo";
-  src: url(/src/assets/fonts/fonts/NeoTokyo.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Nevada";
-  src: url(/src/assets/fonts/fonts/Nevada.ttf) format("truetype");
-}
-@font-face {
-  font-family: "NewCursive";
-  src: url(/src/assets/fonts/fonts/NewCursive.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Northshore";
-  src: url(/src/assets/fonts/fonts/Northshore.ttf) format("truetype");
+  font-family: "NightVibesFreeVersion";
+  src: url(./assets/fonts/fonts/NightVibesFreeVersion.ttf) format("truetype");
 }
 @font-face {
   font-family: "Photogenic";
-  src: url(/src/assets/fonts/fonts/Photogenic.ttf) format("truetype");
+  src: url(./assets/fonts/fonts/Photogenic.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Rocket";
-  src: url(/src/assets/fonts/fonts/Rocket.ttf) format("truetype");
+  font-family: "QueensidesLight";
+  src: url(./assets/fonts/fonts/QueensidesLight.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Royalty";
-  src: url(/src/assets/fonts/fonts/Royalty.ttf) format("truetype");
+  font-family: "Quensialy";
+  src: url(./assets/fonts/fonts/Quensialy.ttf) format("truetype");
 }
 @font-face {
-  font-family: "SciFi";
-  src: url(/src/assets/fonts/fonts/SciFi.ttf) format("truetype");
+  font-family: "RainbowColorsRegular";
+  src: url(./assets/fonts/fonts/RainbowColorsRegular.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Signature";
-  src: url(/src/assets/fonts/fonts/Signature.ttf) format("truetype");
+  font-family: "RetroSignature";
+  src: url(./assets/fonts/fonts/RetroSignature.ttf) format("truetype");
+}
+@font-face {
+  font-family: "SidecarBold";
+  src: url(./assets/fonts/fonts/SidecarBold.ttf) format("truetype");
+}
+@font-face {
+  font-family: "SidecarSans4";
+  src: url(./assets/fonts/fonts/SidecarSans4.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Speedeasy";
+  src: url(./assets/fonts/fonts/Speedeasy.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Tomatoes";
+  src: url(./assets/fonts/fonts/Tomatoes.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Vultures";
+  src: url(./assets/fonts/fonts/Vultures.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Watterline";
+  src: url(./assets/fonts/fonts/Watterline.ttf) format("truetype");
+}
+@font-face {
+  font-family: "NeonFeel";
+  src: url(./assets/fonts/fonts/NeonFeel.ttf) format("truetype");
+}
+@font-face {
+  font-family: "NeonLite";
+  src: url(./assets/fonts/fonts/NeonLite.ttf) format("truetype");
+}
+@font-face {
+  font-family: "NeonGlow";
+  src: url(./assets/fonts/fonts/NeonGlow.ttf) format("truetype");
 }
 @font-face {
   font-family: "Sorrento";
-  src: url(/src/assets/fonts/fonts/Sorrento.ttf) format("truetype");
+  src: url(./assets/fonts/fonts/Sorrento.ttf) format("truetype");
 }
 @font-face {
-  font-family: "Typewriter";
-  src: url(/src/assets/fonts/fonts/Typewriter.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Venetian";
-  src: url(/src/assets/fonts/fonts/Venetian.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Vintage";
-  src: url(/src/assets/fonts/fonts/Vintage.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Waikiki";
-  src: url(/src/assets/fonts/fonts/Waikiki.ttf) format("truetype");
-}
-@font-face {
-  font-family: "WildScript";
-  src: url(/src/assets/fonts/fonts/WildScript.ttf) format("truetype");
+  font-family: "Darlington";
+  src: url(./assets/fonts/fonts/Darlington.ttf) format("truetype");
 }

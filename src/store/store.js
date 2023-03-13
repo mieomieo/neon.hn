@@ -3,9 +3,9 @@ import { createStore } from "vuex";
 export const store = createStore({
   state() {
     return {
-      currentUnit: "inch",
+      currentUnit: "in",
       lightOn: true,
-      currentDemoFont: "Alexa",
+      currentDemoFont: "Breathing",
       textInput: "Your Text",
       currentTextAlign: "left",
       currentColorId: 1,
