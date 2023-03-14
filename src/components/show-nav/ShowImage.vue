@@ -10,6 +10,8 @@
           ? `url(${previewImage})  no-repeat center center`
           : currentBackground,
         backgroundSize: backgroundSize,
+        perspective: '1000px',
+        transformStyle: 'preserve-3d',
       }"
     >
       <!-- Draggable // DemoText -->
@@ -23,6 +25,7 @@
         }"
         :style="{
           lineHeight: '0',
+          transform: `rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg) rotateZ(${currentRotateZ}deg)`,
         }"
         @mousedown="startDrag"
         @touchstart.prevent="startDrag"
@@ -126,12 +129,32 @@
       <!-- Range bar -->
       <ChangeSize class="p-3 absolute left-0 top-0" />
 
-      <!-- Button Light -->
-      <ButtonLight
-        class="absolute right-2 top-5 inline-flex items-center cursor-pointer"
-        @click="handleLightToggle"
-        ><div class="div"></div
-      ></ButtonLight>
+      <div class="absolute right-0 top-2 rounded-lg cursor-pointer">
+        <svg
+          class="absolute top-2 right-3 w-6"
+          @click="showSettings = !showSettings"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+        >
+          <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+          <path
+            d="M0 416c0-17.7 14.3-32 32-32l54.7 0c12.3-28.3 40.5-48 73.3-48s61 19.7 73.3 48L480 384c17.7 0 32 14.3 32 32s-14.3 32-32 32l-246.7 0c-12.3 28.3-40.5 48-73.3 48s-61-19.7-73.3-48L32 448c-17.7 0-32-14.3-32-32zm192 0a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM384 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm-32-80c32.8 0 61 19.7 73.3 48l54.7 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-54.7 0c-12.3 28.3-40.5 48-73.3 48s-61-19.7-73.3-48L32 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l246.7 0c12.3-28.3 40.5-48 73.3-48zM192 64a32 32 0 1 0 0 64 32 32 0 1 0 0-64zm73.3 0L480 64c17.7 0 32 14.3 32 32s-14.3 32-32 32l-214.7 0c-12.3 28.3-40.5 48-73.3 48s-61-19.7-73.3-48L32 128C14.3 128 0 113.7 0 96S14.3 64 32 64l86.7 0C131 35.7 159.2 16 192 16s61 19.7 73.3 48z"
+          />
+        </svg>
+
+        <div
+          class="settings bg-slate-200/30 rounded-lg w-[320px] h-[100px]"
+          :style="{ display: showSettings ? 'block' : 'none' }"
+        >
+          <!-- Button Light -->
+          <ButtonLight
+            class="absolute right-2 top-1/2 inline-flex items-center cursor-pointer"
+            @click="handleLightToggle"
+          ></ButtonLight>
+          <header-app class="absolute left-0" />
+          <!-- Nội dung của box setting ở đây -->
+        </div>
+      </div>
     </div>
     <!-- Import image file -->
     <div class="relative p-10 rounded-b-lg bg-stone-800 flex justify-center">
@@ -180,6 +203,7 @@ import {
 } from "../../constants";
 import ButtonLight from "./ButtonLight.vue";
 import ChangeSize from "./ChangeSize.vue";
+import HeaderApp from "../HeaderApp.vue";
 
 export default {
   components: {
@@ -187,6 +211,7 @@ export default {
     ButtonLight,
     ChangeSize,
     Loading,
+    HeaderApp,
   },
   data() {
     return {
@@ -201,9 +226,10 @@ export default {
       draggable: null,
       sizeOfBackgroundImage: 0,
       isShowRulerOfDemoText: false,
-      backgroundSize: "", // check background size khi upload image
+      backgroundSize: "contain", // check background size khi upload image
       // isActiveInputRange: false, // kiem tra xem co active width cua demoText khong?
       loading: false,
+      showSettings: false,
     };
   },
   computed: {
@@ -321,6 +347,27 @@ export default {
         this.$store.state.currentDemoFont
       );
       return this.$store.state.currentWidthDemoText;
+    },
+    currentRotateX() {
+      console.log(
+        "this.$store.state.currentRotateX",
+        this.$store.state.currentRotateX
+      );
+      return this.$store.state.currentRotateX;
+    },
+    currentRotateY() {
+      console.log(
+        "this.$store.state.currentRotateX",
+        this.$store.state.currentRotateY
+      );
+      return this.$store.state.currentRotateY;
+    },
+    currentRotateZ() {
+      console.log(
+        "this.$store.state.currentRotateZ",
+        this.$store.state.currentRotateZ
+      );
+      return this.$store.state.currentRotateZ;
     },
   },
   watch: {
@@ -516,6 +563,7 @@ export default {
 </script>
 <style scoped>
 @import "../../assets/fonts/font-face.css";
+
 .demoText {
   /* width: v-bind(currentWidthDemoText + "px");*/
   line-height: 1;

@@ -20,10 +20,22 @@ export const store = createStore({
         height: 0,
       },
       currentInputRange: false,
+      currentRotateX: 0,
+      currentRotateY: 0,
+      currentRotateZ: 0,
     };
   },
   actions: {},
   mutations: {
+    setCurrentRotateX(state, number) {
+      state.currentRotateX = number;
+    },
+    setCurrentRotateY(state, number) {
+      state.currentRotateY = number;
+    },
+    setCurrentRotateZ(state, number) {
+      state.currentRotateZ = number;
+    },
     setHeightOfDemoText(state, height) {
       state.currentHeightOfDemoText = height;
     },

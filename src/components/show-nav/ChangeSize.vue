@@ -20,8 +20,6 @@
   </div>
 </template>
 <script scoped>
-import throttle from "lodash.throttle";
-
 export default {
   data() {
     return {
